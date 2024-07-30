@@ -9,8 +9,6 @@ class SingIn extends StatefulWidget {
 }
 
 class _SingInState extends State<SingIn> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
