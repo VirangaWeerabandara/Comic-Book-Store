@@ -20,34 +20,34 @@ class ResponseModel {
     if (json['phonetics'] != null) {
       phonetics = <Phonetics>[];
       json['phonetics'].forEach((v) {
-        phonetics!.add(new Phonetics.fromJson(v));
+        phonetics!.add(Phonetics.fromJson(v));
       });
     }
     if (json['meanings'] != null) {
       meanings = <Meanings>[];
       json['meanings'].forEach((v) {
-        meanings!.add(new Meanings.fromJson(v));
+        meanings!.add(Meanings.fromJson(v));
       });
     }
     license =
-        json['license'] != null ? new License.fromJson(json['license']) : null;
+        json['license'] != null ? License.fromJson(json['license']) : null;
     sourceUrls = json['sourceUrls'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['word'] = this.word;
-    data['phonetic'] = this.phonetic;
-    if (this.phonetics != null) {
-      data['phonetics'] = this.phonetics!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['word'] = word;
+    data['phonetic'] = phonetic;
+    if (phonetics != null) {
+      data['phonetics'] = phonetics!.map((v) => v.toJson()).toList();
     }
-    if (this.meanings != null) {
-      data['meanings'] = this.meanings!.map((v) => v.toJson()).toList();
+    if (meanings != null) {
+      data['meanings'] = meanings!.map((v) => v.toJson()).toList();
     }
-    if (this.license != null) {
-      data['license'] = this.license!.toJson();
+    if (license != null) {
+      data['license'] = license!.toJson();
     }
-    data['sourceUrls'] = this.sourceUrls;
+    data['sourceUrls'] = sourceUrls;
     return data;
   }
 }
@@ -65,16 +65,16 @@ class Phonetics {
     audio = json['audio'];
     sourceUrl = json['sourceUrl'];
     license =
-        json['license'] != null ? new License.fromJson(json['license']) : null;
+        json['license'] != null ? License.fromJson(json['license']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['text'] = this.text;
-    data['audio'] = this.audio;
-    data['sourceUrl'] = this.sourceUrl;
-    if (this.license != null) {
-      data['license'] = this.license!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['text'] = text;
+    data['audio'] = audio;
+    data['sourceUrl'] = sourceUrl;
+    if (license != null) {
+      data['license'] = license!.toJson();
     }
     return data;
   }
@@ -92,9 +92,9 @@ class License {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['url'] = this.url;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['url'] = url;
     return data;
   }
 }
@@ -103,7 +103,7 @@ class Meanings {
   String? partOfSpeech;
   List<Definitions>? definitions;
   List<String>? synonyms;
-  List<Null>? antonyms;
+  List<String>? antonyms;
 
   Meanings({this.partOfSpeech, this.definitions, this.synonyms, this.antonyms});
 
@@ -112,28 +112,21 @@ class Meanings {
     if (json['definitions'] != null) {
       definitions = <Definitions>[];
       json['definitions'].forEach((v) {
-        definitions!.add(new Definitions.fromJson(v));
+        definitions!.add(Definitions.fromJson(v));
       });
     }
     synonyms = json['synonyms'].cast<String>();
-    if (json['antonyms'] != null) {
-      antonyms = <Null>[];
-      json['antonyms'].forEach((v) {
-        antonyms!.add(new Null.fromJson(v));
-      });
-    }
+    antonyms = json['antonyms']?.cast<String>();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['partOfSpeech'] = this.partOfSpeech;
-    if (this.definitions != null) {
-      data['definitions'] = this.definitions!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['partOfSpeech'] = partOfSpeech;
+    if (definitions != null) {
+      data['definitions'] = definitions!.map((v) => v.toJson()).toList();
     }
-    data['synonyms'] = this.synonyms;
-    if (this.antonyms != null) {
-      data['antonyms'] = this.antonyms!.map((v) => v.toJson()).toList();
-    }
+    data['synonyms'] = synonyms;
+    data['antonyms'] = antonyms;
     return data;
   }
 }
@@ -141,31 +134,24 @@ class Meanings {
 class Definitions {
   String? definition;
   List<String>? synonyms;
-  List<Null>? antonyms;
+  List<String>? antonyms;
   String? example;
 
   Definitions({this.definition, this.synonyms, this.antonyms, this.example});
 
   Definitions.fromJson(Map<String, dynamic> json) {
     definition = json['definition'];
-    synonyms = json['synonyms'].cast<String>();
-    if (json['antonyms'] != null) {
-      antonyms = <Null>[];
-      json['antonyms'].forEach((v) {
-        antonyms!.add(new Null.fromJson(v));
-      });
-    }
+    synonyms = json['synonyms']?.cast<String>();
+    antonyms = json['antonyms']?.cast<String>();
     example = json['example'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['definition'] = this.definition;
-    data['synonyms'] = this.synonyms;
-    if (this.antonyms != null) {
-      data['antonyms'] = this.antonyms!.map((v) => v.toJson()).toList();
-    }
-    data['example'] = this.example;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['definition'] = definition;
+    data['synonyms'] = synonyms;
+    data['antonyms'] = antonyms;
+    data['example'] = example;
     return data;
   }
 }
