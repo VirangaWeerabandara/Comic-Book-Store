@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class TextRecognition extends StatefulWidget {
   const TextRecognition({super.key});
@@ -13,6 +14,14 @@ class _TextRecognitionState extends State<TextRecognition> {
   final Color accentColor = const Color(0xFF9AC7E2);
   final Color backgroundColor = const Color(0xFFFFFFFF);
   final Color cardColor = const Color(0xFFF5F5F5);
+
+  late ImagePicker imagePicker;
+
+  @override
+  void initState() {
+    super.initState();
+    imagePicker = ImagePicker();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +71,12 @@ class _TextRecognitionState extends State<TextRecognition> {
                   ),
                 ),
                 Card(
-                  child: Container(
-                    height: screenHeight - 300,
-                    color: secondaryColor,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Container(
+                      height: screenHeight - 300,
+                      color: secondaryColor,
+                    ),
                   ),
                 ),
                 Card(
@@ -93,8 +105,9 @@ class _TextRecognitionState extends State<TextRecognition> {
                           InkWell(
                             child: Icon(Icons.image_outlined,
                                 color: accentColor, size: 30),
-                            onTap: () {
-                              print("hi");
+                            onTap: () async {
+                              XFile? xfile = await imagePicker.pickImage(
+                                  source: ImageSource.gallery);
                             },
                           ),
                         ],
