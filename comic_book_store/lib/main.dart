@@ -1,3 +1,4 @@
+import 'package:comic_book_store/components/navbar.dart';
 import 'package:comic_book_store/pages/dictionaryPage.dart';
 import 'package:comic_book_store/pages/signIn.dart';
 import 'package:device_preview/device_preview.dart';
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Comic Books',
       theme: ThemeData.light(),
-      home: SingIn(),
+      home: NavigationMenu(),
     );
   }
 }

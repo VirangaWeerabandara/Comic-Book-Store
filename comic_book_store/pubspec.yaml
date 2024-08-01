@@ -38,6 +38,8 @@ dependencies:
   device_preview: ^1.2.0
   json_annotation: ^4.9.0
   http: ^1.2.2
+  get: ^4.6.6
+  iconsax: ^0.0.8
 
 dev_dependencies:
   flutter_test:
