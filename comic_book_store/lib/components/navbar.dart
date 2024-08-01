@@ -1,11 +1,12 @@
 import 'package:comic_book_store/pages/dictionaryPage.dart';
 import 'package:comic_book_store/pages/signIn.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 // Define your color theme
-final Color primaryColor = Color(0xFF173048);
+final Color primaryColor = Color(0xFFED6333);
 final Color secondaryColor = Color(0xFF758BA7);
 final Color accentColor = Color(0xFF9AC7E2);
 final Color backgroundColor = Color(0xFFFFFFFF);
@@ -20,23 +21,24 @@ class NavigationMenu extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: Obx(
         () => BottomNavigationBar(
+          elevation: 0,
           currentIndex: controller.selectedIndex.value,
           onTap: (index) => controller.selectedIndex.value = index,
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Iconsax.home),
-              label: 'Home',
+              icon: Icon(Icons.home), // Updated icon
+              label: 'Explore',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Iconsax.shop),
-              label: 'Store',
+              icon: Icon(Icons.library_books), // Updated icon
+              label: 'Library',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Iconsax.heart),
-              label: 'Wishlist',
+              icon: Icon(Icons.bookmark), // Updated icon
+              label: 'Dictionary',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Iconsax.user),
+              icon: Icon(Icons.person), // Updated icon
               label: 'Profile',
             ),
           ],
@@ -56,8 +58,8 @@ class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
   final List<Widget> screens = [
     DictionaryPage(),
+    SingIn(),
     DictionaryPage(),
-    DictionaryPage(),
-    DictionaryPage(),
+    SingIn(),
   ];
 }
