@@ -157,8 +157,21 @@ class _DictionaryPageState extends State<DictionaryPage> {
   }
 
   Widget _buildSearchWidget() {
-    return SearchBar(
-      hintText: "Search word here",
+    return TextField(
+      decoration: InputDecoration(
+        hintText: "Search word here",
+        hintStyle: TextStyle(color: secondaryColor),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: primaryColor, width: 2.0),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: secondaryColor, width: 2.0),
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        fillColor: cardColor,
+        filled: true,
+      ),
       onSubmitted: (value) {
         _getMeaningFromApi(value);
       },
