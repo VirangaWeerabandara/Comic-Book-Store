@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:comic_book_store/api/dictionaryApi.dart';
 import 'package:comic_book_store/models/responseModel.dart';
-import 'package:flutter/material.dart';
 
 class DictionaryPage extends StatefulWidget {
   const DictionaryPage({super.key});
@@ -14,33 +14,40 @@ class _DictionaryPageState extends State<DictionaryPage> {
   ResponseModel? responseModel;
   String noDataText = "Welcome, Start searching";
 
+  final Color primaryColor = Color(0xFF173048);
+  final Color secondaryColor = Color(0xFF758BA7);
+  final Color accentColor = Color(0xFF9AC7E2);
+  final Color backgroundColor = Color(0xFFFFFFFF);
+  final Color cardColor = Color(0xFFF5F5F5);
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
+      color: backgroundColor,
       child: SafeArea(
-          child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildSearchWidget(),
-              const SizedBox(height: 12),
-              if (inProgress)
-                const LinearProgressIndicator()
-              else if (responseModel != null)
-                Expanded(child: _buildResponseWidget())
-              else
-                _noDataWidget(),
-            ],
+        child: Scaffold(
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildSearchWidget(),
+                const SizedBox(height: 12),
+                if (inProgress)
+                  const LinearProgressIndicator()
+                else if (responseModel != null)
+                  Expanded(child: _buildResponseWidget())
+                else
+                  _noDataWidget(),
+              ],
+            ),
           ),
         ),
-      )),
+      ),
     );
   }
 
-  _buildResponseWidget() {
+  Widget _buildResponseWidget() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -48,7 +55,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
         Text(
           responseModel!.word!,
           style: TextStyle(
-            color: Colors.purple.shade600,
+            color: primaryColor,
             fontWeight: FontWeight.bold,
             fontSize: 22,
           ),
@@ -56,17 +63,18 @@ class _DictionaryPageState extends State<DictionaryPage> {
         Text(responseModel!.phonetic ?? ""),
         const SizedBox(height: 16),
         Expanded(
-            child: ListView.builder(
-          itemBuilder: (context, index) {
-            return _buildMeaningWidget(responseModel!.meanings![index]);
-          },
-          itemCount: responseModel!.meanings!.length,
-        ))
+          child: ListView.builder(
+            itemBuilder: (context, index) {
+              return _buildMeaningWidget(responseModel!.meanings![index]);
+            },
+            itemCount: responseModel!.meanings!.length,
+          ),
+        ),
       ],
     );
   }
 
-  _buildMeaningWidget(Meanings meanings) {
+  Widget _buildMeaningWidget(Meanings meanings) {
     String definitionList = "";
     meanings.definitions?.forEach(
       (element) {
@@ -77,6 +85,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
 
     return Card(
       elevation: 4,
+      color: cardColor,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -85,7 +94,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
             Text(
               meanings.partOfSpeech!,
               style: TextStyle(
-                color: Colors.orange.shade600,
+                color: secondaryColor,
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
               ),
@@ -108,7 +117,7 @@ class _DictionaryPageState extends State<DictionaryPage> {
     );
   }
 
-  _buildSet(String title, List<String>? setList) {
+  Widget _buildSet(String title, List<String>? setList) {
     if (setList?.isNotEmpty ?? false) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,19 +144,19 @@ class _DictionaryPageState extends State<DictionaryPage> {
     }
   }
 
-  _noDataWidget() {
+  Widget _noDataWidget() {
     return SizedBox(
       height: 100,
       child: Center(
         child: Text(
           noDataText,
-          style: const TextStyle(fontSize: 20),
+          style: TextStyle(fontSize: 20, color: primaryColor),
         ),
       ),
     );
   }
 
-  _buildSearchWidget() {
+  Widget _buildSearchWidget() {
     return SearchBar(
       hintText: "Search word here",
       onSubmitted: (value) {
