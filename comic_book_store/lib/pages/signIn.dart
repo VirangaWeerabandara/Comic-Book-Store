@@ -18,10 +18,8 @@ class _SingInState extends State<SingIn> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    return Template(
-      screenWidth: screenWidth,
-      screenHeight: screenHeight,
-      theChild: Padding(
+    return Scaffold(
+      body: Padding(
         padding: const EdgeInsets.all(30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
