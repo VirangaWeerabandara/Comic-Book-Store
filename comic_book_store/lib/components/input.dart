@@ -14,35 +14,42 @@ class CustomInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Define your color theme here
+    const Color primaryColor = Color(0xFF173048);
+    const Color secondaryColor = Color(0xFF758BA7);
+    const Color accentColor = Color(0xFF9AC7E2);
+    const Color backgroundColor = Color(0xFFFFFFFF);
+    const Color cardColor = Color(0xFFB8BFC2);
+
     return TextFormField(
       controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: const TextStyle(
-          color: Color(0xFF173048), // Updated color
+          color: primaryColor, // Use the defined color
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-              color: Color(0xFFB8BFC2), width: 2.0), // Updated color
+              color: cardColor, width: 2.0), // Use the defined color
           borderRadius: BorderRadius.circular(5.0),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-              color: Color(0xFF758BA7), width: 2.0), // Updated color
+              color: secondaryColor, width: 2.0), // Use the defined color
           borderRadius: BorderRadius.circular(10.0),
         ),
         errorBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-              color: Color(0xFF9AC7E2), width: 2.0), // Updated color
+              color: accentColor, width: 2.0), // Use the defined color
           borderRadius: BorderRadius.circular(10.0),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-              color: Color(0xFF173048), width: 2.0), // Updated color
+              color: primaryColor, width: 2.0), // Use the defined color
           borderRadius: BorderRadius.circular(10.0),
         ),
-        fillColor: const Color(0xFFB8BFC2), // Updated color
+        fillColor: cardColor, // Use the defined color
         filled: true,
       ),
     );
