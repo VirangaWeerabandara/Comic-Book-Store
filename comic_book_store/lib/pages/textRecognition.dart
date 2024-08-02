@@ -38,50 +38,6 @@ class _TextRecognitionState extends State<TextRecognition> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                // Card(s
-                //   child: ClipRRect(
-                //     borderRadius: BorderRadius.circular(15.0),
-                //     child: Container(
-                //       height: 70,
-                //       color: primaryColor,
-                //       child: Row(
-                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //         children: [
-                //           InkWell(
-                //             child: Icon(Icons.scanner,
-                //                 color: accentColor, size: 25),
-                //             onTap: () {
-                //               print("hi");
-                //             },
-                //           ),
-                //           InkWell(
-                //             child: Icon(Icons.document_scanner,
-                //                 color: accentColor, size: 25),
-                //             onTap: () {
-                //               print("hi");
-                //             },
-                //           ),
-                //           InkWell(
-                //             child: Icon(Icons.assignment_sharp,
-                //                 color: accentColor, size: 25),
-                //             onTap: () {
-                //               print("hi");
-                //             },
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                Card(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
-                    child: Container(
-                      height: screenHeight - 300,
-                      color: secondaryColor,
-                    ),
-                  ),
-                ),
                 Card(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
@@ -101,8 +57,16 @@ class _TextRecognitionState extends State<TextRecognition> {
                           InkWell(
                             child: Icon(Icons.camera,
                                 color: accentColor, size: 50),
-                            onTap: () {
-                              print("hi");
+                            onTap: () async {
+                              XFile? xfile = await imagePicker.pickImage(
+                                  source: ImageSource.camera);
+                              if (xfile != null) {
+                                File image = File(xfile.path);
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (ctx) {
+                                  return RecognizerScreen(image);
+                                }));
+                              }
                             },
                           ),
                           InkWell(
