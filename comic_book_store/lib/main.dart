@@ -1,6 +1,7 @@
 import 'package:comic_book_store/components/navbar.dart';
 import 'package:comic_book_store/pages/dictionaryPage.dart';
 import 'package:comic_book_store/pages/signIn.dart';
+import 'package:comic_book_store/pages/textRecognition.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Comic Books',
       theme: ThemeData.light(),
-      home: NavigationMenu(),
+      home: TextRecognition(),
     );
   }
 }
