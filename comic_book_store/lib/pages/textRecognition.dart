@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:comic_book_store/pages/recognizerScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -108,6 +111,16 @@ class _TextRecognitionState extends State<TextRecognition> {
                             onTap: () async {
                               XFile? xfile = await imagePicker.pickImage(
                                   source: ImageSource.gallery);
+                              if (xfile != null) {
+                                File image = File(xfile.path);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RecognizerScreen(image),
+                                  ),
+                                );
+                              }
                             },
                           ),
                         ],
