@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:flutter/services.dart';
 
 class RecognizerScreen extends StatefulWidget {
   final File image;
@@ -25,18 +26,23 @@ class _RecognizerScreenState extends State<RecognizerScreen> {
   void initState() {
     super.initState();
     // Recognize text from image
-
     textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
     doTextRecognition();
   }
+
+  String results = '';
 
   doTextRecognition() async {
     final inputImage = InputImage.fromFile(this.widget.image);
     final RecognizedText recognizedText =
         await textRecognizer.processImage(inputImage);
 
-    String text = recognizedText.text;
-    print(text);
+    results = recognizedText.text;
+
+    setState(() {
+      results;
+    });
+
     for (TextBlock block in recognizedText.blocks) {
       final Rect rect = block.boundingBox;
       final List<Point<int>> cornerPoints = block.cornerPoints;
@@ -52,6 +58,13 @@ class _RecognizerScreenState extends State<RecognizerScreen> {
     }
   }
 
+  void copyToClipboard() {
+    Clipboard.setData(ClipboardData(text: results));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Copied to clipboard')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,12 +73,44 @@ class _RecognizerScreenState extends State<RecognizerScreen> {
         backgroundColor: primaryColor,
       ),
       body: Center(
-        child: Container(
-          color: backgroundColor,
-          padding: const EdgeInsets.all(16.0),
-          child: Image.file(
-            widget.image,
-            fit: BoxFit.contain,
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Image.file(
+                  widget.image,
+                  fit: BoxFit.contain,
+                ),
+                Card(
+                  margin: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Results'),
+                              IconButton(
+                                icon: Icon(Icons.copy),
+                                onPressed: copyToClipboard,
+                              ),
+                            ],
+                          ),
+                        ),
+                        color: primaryColor,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(results),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
