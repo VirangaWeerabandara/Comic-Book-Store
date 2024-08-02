@@ -42,6 +42,7 @@ dependencies:
   iconsax: ^0.0.8
   image_picker: ^1.1.2
   universal_io: ^2.2.2
+  image_loader: ^1.10.0
 
 dev_dependencies:
   flutter_test:

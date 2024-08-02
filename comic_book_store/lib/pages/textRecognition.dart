@@ -38,41 +38,41 @@ class _TextRecognitionState extends State<TextRecognition> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
-                Card(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
-                    child: Container(
-                      height: 70,
-                      color: primaryColor,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          InkWell(
-                            child: Icon(Icons.scanner,
-                                color: accentColor, size: 25),
-                            onTap: () {
-                              print("hi");
-                            },
-                          ),
-                          InkWell(
-                            child: Icon(Icons.document_scanner,
-                                color: accentColor, size: 25),
-                            onTap: () {
-                              print("hi");
-                            },
-                          ),
-                          InkWell(
-                            child: Icon(Icons.assignment_sharp,
-                                color: accentColor, size: 25),
-                            onTap: () {
-                              print("hi");
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                // Card(s
+                //   child: ClipRRect(
+                //     borderRadius: BorderRadius.circular(15.0),
+                //     child: Container(
+                //       height: 70,
+                //       color: primaryColor,
+                //       child: Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                //         children: [
+                //           InkWell(
+                //             child: Icon(Icons.scanner,
+                //                 color: accentColor, size: 25),
+                //             onTap: () {
+                //               print("hi");
+                //             },
+                //           ),
+                //           InkWell(
+                //             child: Icon(Icons.document_scanner,
+                //                 color: accentColor, size: 25),
+                //             onTap: () {
+                //               print("hi");
+                //             },
+                //           ),
+                //           InkWell(
+                //             child: Icon(Icons.assignment_sharp,
+                //                 color: accentColor, size: 25),
+                //             onTap: () {
+                //               print("hi");
+                //             },
+                //           ),
+                //         ],
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Card(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15.0),
@@ -113,13 +113,10 @@ class _TextRecognitionState extends State<TextRecognition> {
                                   source: ImageSource.gallery);
                               if (xfile != null) {
                                 File image = File(xfile.path);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        RecognizerScreen(image),
-                                  ),
-                                );
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (ctx) {
+                                  return RecognizerScreen(image);
+                                }));
                               }
                             },
                           ),

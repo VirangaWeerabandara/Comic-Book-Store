@@ -19,28 +19,18 @@ class _RecognizerScreenState extends State<RecognizerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: backgroundColor,
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: backgroundColor,
-            elevation: 0,
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: primaryColor,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-          ),
-          body: Center(
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15.0),
-              child: Image.file(this.widget.image),
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Text Recognition'),
+        backgroundColor: primaryColor,
+      ),
+      body: Center(
+        child: Container(
+          color: backgroundColor,
+          padding: const EdgeInsets.all(16.0),
+          child: Image.file(
+            widget.image,
+            fit: BoxFit.contain,
           ),
         ),
       ),
