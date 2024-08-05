@@ -1,5 +1,6 @@
 import 'package:comic_book_store/pages/dictionaryPage.dart';
 import 'package:comic_book_store/pages/signIn.dart';
+import 'package:comic_book_store/pages/textToSpeech.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -57,7 +58,7 @@ class NavigationMenu extends StatelessWidget {
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
   final List<Widget> screens = [
-    DictionaryPage(),
+    TextToSpeech(),
     SingIn(),
     DictionaryPage(),
     SingIn(),
