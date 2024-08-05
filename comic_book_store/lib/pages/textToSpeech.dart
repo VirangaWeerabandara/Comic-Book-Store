@@ -1,6 +1,7 @@
+import 'package:comic_book_store/components/button.dart';
+import 'package:comic_book_store/components/input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:avatar_glow/avatar_glow.dart';
 
 class TextToSpeech extends StatefulWidget {
   const TextToSpeech({super.key});
@@ -10,197 +11,141 @@ class TextToSpeech extends StatefulWidget {
 }
 
 class _TextToSpeechState extends State<TextToSpeech> {
-  TextEditingController textController =
-      TextEditingController(text: 'Write some text for speech');
-  late FlutterTts flutterTts;
-  double volumeRange = 0.5;
-  double pitchRange = 1.0;
-  double speechRange = 0.5;
-  bool isSpeaking = false;
+  final FlutterTts flutterTts = FlutterTts();
+  final TextEditingController textController = TextEditingController();
+
+  Map<String, dynamic> languageMap = {
+    'en-US': 'English',
+    'es-ES': 'Spanish',
+    'fr-FR': 'French',
+    'de-DE': 'German',
+    'it-IT': 'Italian',
+    'ja-JP': 'Japanese',
+    'ko-KR': 'Korean',
+    'zh-CN': 'Chinese',
+  };
+
+  List<String> languages = [];
+  String? selectedLanguage;
+  double pitch = 1;
+  double rate = 0.5;
+  double volume = 0.5;
 
   @override
   void initState() {
     super.initState();
-    flutterTts = FlutterTts();
-
-    flutterTts.setCompletionHandler(() {
-      setState(() {
-        isSpeaking = false;
-      });
-    });
+    initTts();
   }
 
-  Future<void> play() async {
-    if (textController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please enter some text")),
-      );
-      return;
-    }
+  Future<void> initTts() async {
+    List<dynamic> availableLanguages = await flutterTts.getLanguages;
+    languages = availableLanguages
+        .where((language) => languageMap.keys.contains(language))
+        .map((language) => language as String)
+        .toList();
+    setState(() {});
+  }
 
-    try {
-      final languages = await flutterTts.getLanguages;
-      print(languages);
-      await flutterTts.setLanguage("en-US"); // Set to default language
+  @override
+  void dispose() {
+    textController.dispose();
+    super.dispose();
+  }
 
-      final voices = await flutterTts.getVoices;
-      print(voices);
-      await flutterTts.setVoice({
-        "name": "en-us-x-sfg#male_1-local",
-        "locale": "en-US"
-      }); // Set to default voice
-
-      await flutterTts.speak(textController.text);
-      setState(() {
-        isSpeaking = true;
-      });
-    } catch (e) {
-      print("Error: $e");
-    }
+  Future<void> speak() async {
+    await flutterTts.setLanguage(selectedLanguage ?? 'en-US');
+    await flutterTts.setPitch(pitch);
+    await flutterTts.setSpeechRate(rate);
+    await flutterTts.setVolume(volume);
+    await flutterTts.speak(textController.text);
   }
 
   Future<void> stop() async {
     await flutterTts.stop();
-    setState(() {
-      isSpeaking = false;
-    });
-  }
-
-  Future<void> pause() async {
-    await flutterTts.pause();
-    setState(() {
-      isSpeaking = false;
-    });
-  }
-
-  Future<void> setVolume(double val) async {
-    volumeRange = val;
-    await flutterTts.setVolume(volumeRange);
-    setState(() {});
-  }
-
-  Future<void> setPitch(double val) async {
-    pitchRange = val;
-    await flutterTts.setPitch(pitchRange);
-    setState(() {});
-  }
-
-  Future<void> setSpeechRate(double val) async {
-    speechRange = val;
-    await flutterTts.setSpeechRate(speechRange);
-    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.indigo,
-        title: const Text(
-          'Text To Speech App',
-          style: TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.white, fontSize: 25),
-        ),
-      ),
-      body: SingleChildScrollView(
+      body: Padding(
+        padding: const EdgeInsets.all(30),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 30),
-            Container(
-              width: 250,
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.indigo,
-                borderRadius: BorderRadius.circular(10),
+            CustomInputField(
+              hintText: 'Enter text to speak',
+              controller: textController,
+            ),
+            SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Select Language',
               ),
-              child: TextFormField(
-                controller: textController,
-                maxLines: null,
-                textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  hintText: 'Write some text',
-                  hintStyle: TextStyle(color: Colors.white),
-                  enabledBorder: InputBorder.none,
-                  border: InputBorder.none,
-                ),
+              items: languages.map((String language) {
+                return DropdownMenuItem<String>(
+                  value: language,
+                  child: Text(languageMap[language] ?? language),
+                );
+              }).toList(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  selectedLanguage = newValue;
+                });
+              },
+              value: selectedLanguage,
+            ),
+            SizedBox(height: 20),
+            Text('Pitch: ${pitch.toStringAsFixed(2)}'),
+            Slider(
+              value: pitch,
+              onChanged: (newPitch) {
+                setState(() {
+                  pitch = newPitch;
+                });
+              },
+              min: 0.5,
+              max: 2.0,
+            ),
+            Text('Rate: ${rate.toStringAsFixed(2)}'),
+            Slider(
+              value: rate,
+              onChanged: (newRate) {
+                setState(() {
+                  rate = newRate;
+                });
+              },
+              min: 0.1,
+              max: 1.0,
+            ),
+            Text('Volume: ${volume.toStringAsFixed(2)}'),
+            Slider(
+              value: volume,
+              onChanged: (newVolume) {
+                setState(() {
+                  volume = newVolume;
+                });
+              },
+              min: 0.0,
+              max: 1.0,
+            ),
+            Center(
+              child: CustomButton(
+                text: 'Speak',
+                onPressed: speak,
+                width: 150, // Set the desired width
+                height: 50, // Set the desired height
               ),
             ),
-            const SizedBox(height: 20),
-            AvatarGlow(
-              animate: isSpeaking,
-              glowColor: Color.fromARGB(255, 177, 33, 243),
-              child: Material(
-                elevation: 10,
-                shape: CircleBorder(),
-                child: CircleAvatar(
-                  radius: 40,
-                  backgroundColor: Color.fromARGB(255, 118, 80, 255),
-                  child: Icon(
-                    Icons.mic_none_outlined,
-                    color: Colors.white,
-                    size: 30,
-                  ),
-                ),
+            Center(
+              child: CustomButton(
+                text: 'Stop',
+                onPressed: stop,
+                width: 150, // Set the desired width
+                height: 50, // Set the desired height
               ),
-              endRadius: 70,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                IconButton(
-                  splashRadius: 40,
-                  onPressed: play,
-                  color: Colors.teal,
-                  iconSize: 60,
-                  icon: const Icon(Icons.play_circle),
-                ),
-                IconButton(
-                  onPressed: stop,
-                  color: Colors.red,
-                  splashRadius: 40,
-                  iconSize: 60,
-                  icon: const Icon(Icons.stop_circle),
-                ),
-                IconButton(
-                  onPressed: pause,
-                  color: Colors.amber.shade700,
-                  splashRadius: 40,
-                  iconSize: 60,
-                  icon: const Icon(Icons.pause_circle),
-                ),
-              ],
-            ),
-            Slider(
-              max: 1,
-              value: volumeRange,
-              onChanged: setVolume,
-              divisions: 10,
-              label: "Volume: $volumeRange",
-              activeColor: Colors.red,
-            ),
-            const Text('Set Volume'),
-            Slider(
-              max: 2,
-              value: pitchRange,
-              onChanged: setPitch,
-              divisions: 10,
-              label: "Pitch Rate: $pitchRange",
-              activeColor: Colors.teal,
-            ),
-            const Text('Set Pitch'),
-            Slider(
-              max: 1,
-              value: speechRange,
-              onChanged: setSpeechRate,
-              divisions: 10,
-              label: "Speech rate: $speechRange",
-              activeColor: Colors.amber.shade700,
-            ),
-            const Text('Set Speech Rate'),
-            const SizedBox(height: 20),
           ],
         ),
       ),
