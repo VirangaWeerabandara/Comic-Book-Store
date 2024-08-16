@@ -58,7 +58,7 @@ class NavigationMenu extends StatelessWidget {
 class NavigationController extends GetxController {
   final Rx<int> selectedIndex = 0.obs;
   final List<Widget> screens = [
-    TextToSpeech(),
+    SingIn(),
     SingIn(),
     DictionaryPage(),
     SingIn(),
