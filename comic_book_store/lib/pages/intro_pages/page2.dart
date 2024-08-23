@@ -23,25 +23,18 @@ class Intro_page2 extends StatelessWidget {
                     'assets/images/page_01.png',
                     width: screenWidth * 0.9,
                   ),
-                  const Text(
-                    "SyncUp",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 48,
-                    ),
-                  ),
                 ],
               ),
             ),
             const Text(
-              "bdakbdkj,,jjksenhnl ",
+              "Your Personal Comic Library ",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 24,
               ),
             ),
             const Text(
-              "Explore a live gallery of journeys and events, shared by loved ones",
+              "Build your ultimate collection with our easy-to-use store. Buy, sell, and manage your comics all in one place. Whether you're a casual reader or a hardcore collector, our app has everything you need to fuel your passion.",
               style: TextStyle(
                 fontWeight: FontWeight.w300,
                 fontSize: 17,

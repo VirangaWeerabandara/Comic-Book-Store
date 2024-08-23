@@ -35,14 +35,14 @@ class Intro_page3 extends StatelessWidget {
               ),
             ),
             const Text(
-              "bdakbdkj,,jjksenhnl ",
+              "Read, Listen, Understand",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 24,
               ),
             ),
             const Text(
-              "Explore a live gallery of journeys and events, shared by loved ones",
+              "Dive deeper into your favorite stories with our text-to-audio and dictionary features. Whether you're reading on the go or want to understand every detail, our app makes comic books more accessible and enjoyable for everyone.",
               style: TextStyle(
                 fontWeight: FontWeight.w300,
                 fontSize: 17,

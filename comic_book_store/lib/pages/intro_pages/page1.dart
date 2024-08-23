@@ -24,25 +24,18 @@ class Intro_page1 extends StatelessWidget {
                     'assets/images/page_01.png',
                     width: screenWidth * 0.9,
                   ),
-                  const Text(
-                    "SyncUp",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 48,
-                    ),
-                  ),
                 ],
               ),
             ),
             const Text(
-              "bdakbdkj,,jjksenhnl ",
+              "Explore a New Comic Universe ",
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 24,
               ),
             ),
             const Text(
-              "Explore a live gallery of journeys and events, shared by loved ones",
+              " Step into a world where your favorite comics come to life. Our app offers an immersive reading experience with augmented reality, bringing characters off the page and into your world. Discover the future of comic book reading today.",
               style: TextStyle(
                 fontWeight: FontWeight.w300,
                 fontSize: 17,
