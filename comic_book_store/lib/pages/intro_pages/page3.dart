@@ -10,54 +10,46 @@ class Intro_page3 extends StatelessWidget {
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.all(15.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment
-            .start, // Align children to the start (left) of the column
-        children: [
-          SizedBox(height: screenHeight * 0.1),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment
+              .start, // Align children to the start (left) of the column
+          children: [
+            SizedBox(height: screenHeight * 0.1),
+            Center(
               child: Column(
                 children: [
                   Image.asset(
-                    '',
-                    width: screenWidth * 0.2,
+                    'assets/images/page_01.png',
+                    width: screenWidth * 0.9,
                   ),
                   const Text(
-                    "aas",
+                    "SyncUp",
                     style: TextStyle(
                       fontWeight: FontWeight.w400,
                       fontSize: 48,
                     ),
                   ),
-                  Image.asset(
-                    '',
-                    width: screenWidth * 0.8,
-                    height: screenHeight * 0.3,
-                    fit: BoxFit.fill,
-                  ),
                 ],
               ),
             ),
-          ),
-          const Text(
-            "",
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 24,
+            const Text(
+              "bdakbdkj,,jjksenhnl ",
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 24,
+              ),
             ),
-            textAlign: TextAlign.left,
-          ),
-          const Text(
-            "Customize settings for easy navigation and personalized interaction",
-            style: TextStyle(
-              fontWeight: FontWeight.w300,
-              fontSize: 17,
+            const Text(
+              "Explore a live gallery of journeys and events, shared by loved ones",
+              style: TextStyle(
+                fontWeight: FontWeight.w300,
+                fontSize: 17,
+              ),
             ),
-            textAlign: TextAlign.left,
-          ),
-        ],
+          ],
+        ),
       ),
     ));
   }

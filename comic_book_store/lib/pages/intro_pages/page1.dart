@@ -21,8 +21,8 @@ class Intro_page1 extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset(
-                    '',
-                    width: screenWidth * 0.2,
+                    'assets/images/page_01.png',
+                    width: screenWidth * 0.9,
                   ),
                   const Text(
                     "SyncUp",
@@ -30,12 +30,6 @@ class Intro_page1 extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       fontSize: 48,
                     ),
-                  ),
-                  Image.asset(
-                    '',
-                    width: screenWidth * 0.8,
-                    height: screenHeight * 0.3,
-                    fit: BoxFit.fill,
                   ),
                 ],
               ),
