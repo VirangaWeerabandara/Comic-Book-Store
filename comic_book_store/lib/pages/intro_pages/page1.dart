@@ -22,7 +22,7 @@ class Intro_page1 extends StatelessWidget {
                 children: [
                   Image.asset(
                     'assets/images/page_01.png',
-                    width: screenWidth * 0.9,
+                    width: screenWidth,
                   ),
                 ],
               ),

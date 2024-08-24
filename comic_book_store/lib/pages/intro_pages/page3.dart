@@ -22,14 +22,7 @@ class Intro_page3 extends StatelessWidget {
                 children: [
                   Image.asset(
                     'assets/images/page_01.png',
-                    width: screenWidth * 0.9,
-                  ),
-                  const Text(
-                    "SyncUp",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 48,
-                    ),
+                    width: screenWidth,
                   ),
                 ],
               ),

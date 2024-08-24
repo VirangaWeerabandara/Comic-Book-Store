@@ -20,8 +20,8 @@ class Intro_page2 extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/images/page_01.png',
-                    width: screenWidth * 0.9,
+                    'assets/images/page_02.png',
+                    width: screenWidth,
                   ),
                 ],
               ),
