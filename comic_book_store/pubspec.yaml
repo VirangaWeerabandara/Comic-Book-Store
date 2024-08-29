@@ -19,8 +19,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.4.4
-
+  sdk: ^3.5.0-323.2.beta
+  
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -47,6 +47,7 @@ dependencies:
   google_mlkit_text_recognition: ^0.13.0
   flutter_tts: ^4.0.2
   avatar_glow: ^3.0.1
+  smooth_page_indicator: ^1.2.0+3
 
 dev_dependencies:
   flutter_test:
@@ -72,8 +73,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+     - assets/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
