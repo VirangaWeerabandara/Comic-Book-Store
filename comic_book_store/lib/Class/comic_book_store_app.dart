@@ -15,22 +15,18 @@ class ComicBookStoreApp {
   });
 
   List<ComicBook> browseComics() {
-    // Implementation here
     return comics;
   }
 
   List<ComicBook> searchComics(String query) {
-    // Implementation here
     return comics.where((comic) => comic.title.contains(query)).toList();
   }
 
   bool buyComic(ComicBook comic, User user) {
-    // Implementation here
     return true;
   }
 
   bool sellComic(ComicBook comic, User user) {
-    // Implementation here
     return true;
   }
 }

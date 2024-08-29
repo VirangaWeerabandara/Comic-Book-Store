@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'audio.dart';
 
 class ComicBook {
   String comicID;
@@ -20,15 +21,12 @@ class ComicBook {
   });
 
   void playAudio() {
-    // Implementation here
+    audioVersion.play();
   }
 
-  void viewARCharacter() {
-    // Implementation here
-  }
+  void viewARCharacter() {}
 
   String getDictionaryExplanation(String word) {
-    // Implementation here
     return "Explanation of $word";
   }
 }
