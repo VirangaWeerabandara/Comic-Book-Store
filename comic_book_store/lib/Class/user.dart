@@ -5,26 +5,22 @@ class User {
   String _userName;
   String _email;
   String _password;
-  List<ComicBook> _purchasedComics;
 
   User({
     required String userID,
     required String userName,
     required String email,
     required String password,
-    required List<ComicBook> purchasedComics,
   })  : _userID = userID,
         _userName = userName,
         _email = email,
-        _password = password,
-        _purchasedComics = purchasedComics;
+        _password = password;
 
   // Getters
   String get userID => _userID;
   String get userName => _userName;
   String get email => _email;
   String get password => _password;
-  List<ComicBook> get purchasedComics => _purchasedComics;
 
   // Setters
   set userID(String userID) {
@@ -43,10 +39,6 @@ class User {
     _password = password;
   }
 
-  set purchasedComics(List<ComicBook> purchasedComics) {
-    _purchasedComics = purchasedComics;
-  }
-
   bool register() {
     // Implementation here
     return true;
@@ -56,12 +48,72 @@ class User {
     // Implementation here
     return true;
   }
+}
 
-  List<ComicBook> viewPurchasedComics() {
-    return _purchasedComics;
+class Buyer extends User {
+  List<ComicBook> _purchasedComics;
+
+  Buyer({
+    required String userID,
+    required String userName,
+    required String email,
+    required String password,
+    required List<ComicBook> purchasedComics,
+  })  : _purchasedComics = purchasedComics,
+        super(
+          userID: userID,
+          userName: userName,
+          email: email,
+          password: password,
+        );
+
+  // Getter
+  List<ComicBook> get purchasedComics => _purchasedComics;
+
+  // Setter
+  set purchasedComics(List<ComicBook> purchasedComics) {
+    _purchasedComics = purchasedComics;
   }
 
   void addComicToLibrary(ComicBook comic) {
     _purchasedComics.add(comic);
+  }
+
+  List<ComicBook> viewPurchasedComics() {
+    return _purchasedComics;
+  }
+}
+
+class Seller extends User {
+  List<ComicBook> _comicsForSale;
+
+  Seller({
+    required String userID,
+    required String userName,
+    required String email,
+    required String password,
+    required List<ComicBook> comicsForSale,
+  })  : _comicsForSale = comicsForSale,
+        super(
+          userID: userID,
+          userName: userName,
+          email: email,
+          password: password,
+        );
+
+  // Getter
+  List<ComicBook> get comicsForSale => _comicsForSale;
+
+  // Setter
+  set comicsForSale(List<ComicBook> comicsForSale) {
+    _comicsForSale = comicsForSale;
+  }
+
+  void addComicForSale(ComicBook comic) {
+    _comicsForSale.add(comic);
+  }
+
+  void removeComicForSale(ComicBook comic) {
+    _comicsForSale.remove(comic);
   }
 }
