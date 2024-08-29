@@ -1,11 +1,23 @@
 class Dictionary {
-  String word;
-  String definition;
+  String _word;
+  String _definition;
 
   Dictionary({
-    required this.word,
-    required this.definition,
-  });
+    required String word,
+    required String definition,
+  })  : _word = word,
+        _definition = definition;
+
+  String get word => _word;
+  String get definition => _definition;
+
+  set word(String word) {
+    _word = word;
+  }
+
+  set definition(String definition) {
+    _definition = definition;
+  }
 
   String searchWord(String word) {
     return "Definition of $word";
