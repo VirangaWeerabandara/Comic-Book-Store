@@ -26,7 +26,7 @@ class _SingInState extends State<SingIn> {
           children: [
             SizedBox(height: screenHeight * 0.2),
             const Text(
-              "Sing in now",
+              "Sign in now",
               style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
@@ -34,7 +34,7 @@ class _SingInState extends State<SingIn> {
             ),
             SizedBox(height: screenHeight * 0.003),
             const Text(
-              "Please sing in to continue our app",
+              "Please sign in to continue our app",
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -50,9 +50,9 @@ class _SingInState extends State<SingIn> {
             CustomButton(
               height: screenHeight * 0.08,
               width: screenWidth * 1,
-              text: "Sing in",
+              text: "Sign In",
               onPressed: () {
-                print("Sing in");
+                print("Sign in");
               },
             ),
           ],
