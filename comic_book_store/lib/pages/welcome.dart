@@ -1,6 +1,7 @@
 import 'package:comic_book_store/components/button.dart';
 import 'package:comic_book_store/components/input.dart';
 import 'package:comic_book_store/constants/colors.dart';
+import 'package:comic_book_store/pages/signIn.dart';
 
 import 'package:flutter/material.dart';
 
@@ -62,7 +63,8 @@ class _SingInState extends State<WelcomePage> {
               width: screenWidth * 1,
               text: "Sign In",
               onPressed: () {
-                print("Sign in");
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const SignIn()));
               },
             ),
             SizedBox(height: screenHeight * 0.02),

@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Comic Books',
       theme: ThemeData.light(),
-      home: WelcomePage(),
+      home: const Onboarding(),
     );
   }
 }

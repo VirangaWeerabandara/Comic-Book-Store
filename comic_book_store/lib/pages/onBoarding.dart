@@ -2,6 +2,7 @@ import 'package:comic_book_store/pages/intro_pages/page1.dart';
 import 'package:comic_book_store/pages/intro_pages/page2.dart';
 import 'package:comic_book_store/pages/intro_pages/page3.dart';
 import 'package:comic_book_store/pages/signIn.dart';
+import 'package:comic_book_store/pages/welcome.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -67,7 +68,7 @@ class _OnboardingState extends State<Onboarding> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SignIn()));
+                                  builder: (context) => const WelcomePage()));
                         },
                         child: Text("Get started"))
                     : GestureDetector(
