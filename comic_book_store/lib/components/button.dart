@@ -1,3 +1,4 @@
+import 'package:comic_book_store/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
@@ -20,9 +21,9 @@ class CustomButton extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(24.0),
         border: Border.all(color: Colors.white, width: 2.0),
-        color: Color(0xFFED6333), // Updated color
+        color: AppColors.primary, // Updated color
       ),
       child: TextButton(
         onPressed: onPressed,

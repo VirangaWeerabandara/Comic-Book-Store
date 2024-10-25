@@ -67,7 +67,7 @@ class _OnboardingState extends State<Onboarding> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SingIn()));
+                                  builder: (context) => const SignIn()));
                         },
                         child: Text("Get started"))
                     : GestureDetector(
