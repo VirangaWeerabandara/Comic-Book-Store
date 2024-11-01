@@ -51,17 +51,17 @@ class _OnboardingState extends State<Onboarding> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                //skip button
+              
                 GestureDetector(
                     onTap: () {
                       _controller.jumpToPage(2);
                     },
                     child: Text("skip")),
 
-                //dot indicator
+              
                 SmoothPageIndicator(controller: _controller, count: 3),
 
-                //next/done button
+      
                 lastPage
                     ? GestureDetector(
                         onTap: () {
