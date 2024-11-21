@@ -1,4 +1,5 @@
 // lib/models/comic.dart
+import 'package:comic_book_store/models/manga.dart';
 import 'package:flutter/foundation.dart';
 
 class Comic {
@@ -247,7 +248,7 @@ class _HomePageState extends State<HomePage> {
 class TrendingComicsList extends StatelessWidget {
   final List<Comic> comics;
 
-  const TrendingComicsList({Key? key, required this.comics}) : super(key: key);
+  const TrendingComicsList({Key? key, required this.comics, required List<Manga> manga}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
