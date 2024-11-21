@@ -1,47 +1,158 @@
+import 'package:comic_book_store/components/bookList.dart';
+import 'package:comic_book_store/components/readingNowCard.dart';
 import 'package:flutter/material.dart';
-import 'package:comic_book_store/components/card.dart';
+import 'package:comic_book_store/api/jikan_service.dart';
+import 'package:comic_book_store/pages/comicBookPage.dart';
+import '../models/manga.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  final JikanService _jikanService = JikanService();
+  List<Manga> _trendingManga = [];
+  List<Manga> _allManga = [];
+  bool _isLoading = true;
+  bool _isLoadingAll = true;
+  bool _isLoadingMore = false;
+  int _currentPage = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTrendingManga();
+    _loadAllManga();
+  }
+
+  Future<void> _loadTrendingManga() async {
+    try {
+      final mangaData = await _jikanService.getTrendingManga();
+      setState(() {
+        _trendingManga = mangaData.map((data) => Manga.fromJson(data)).toList();
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() => _isLoading = false);
+      print('Error: $e');
+    }
+  }
+
+  Future<void> _loadAllManga() async {
+    try {
+      final mangaData = await _jikanService.getAllComics(page: _currentPage);
+      setState(() {
+        _allManga
+            .addAll(mangaData.map((data) => Manga.fromJson(data)).toList());
+        _isLoadingAll = false;
+        _isLoadingMore = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoadingAll = false;
+        _isLoadingMore = false;
+      });
+      print('Error: $e');
+    }
+  }
+
+  void _loadMoreManga() {
+    if (!_isLoadingMore) {
+      setState(() {
+        _isLoadingMore = true;
+        _currentPage++;
+      });
+      _loadAllManga();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final padding = MediaQuery.of(context).padding;
-
-    // Responsive spacing calculations
-    final horizontalPadding = screenSize.width * 0.04; // 4% of screen width
-    final verticalSpacing = screenSize.height * 0.02; // 2% of screen height
-
     return Scaffold(
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            // Determine if we're in landscape mode
-            final isLandscape = constraints.maxWidth > constraints.maxHeight;
-
-            return SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildStatusBar(context),
-                    SizedBox(height: verticalSpacing),
-                    _buildHotTakes(context, constraints),
-                    SizedBox(height: verticalSpacing),
-                    _buildTrendingComics(context, constraints, isLandscape),
-                  ],
-                ),
-              ),
-            );
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification scrollInfo) {
+            if (scrollInfo.metrics.pixels ==
+                    scrollInfo.metrics.maxScrollExtent &&
+                !_isLoadingMore) {
+              _loadMoreManga();
+            }
+            return false;
           },
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const StatusBar(),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Hot takes',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const HotTakesCard(),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Trending comics',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: 220,
+                    child: _isLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : TrendingComicsList(manga: _trendingManga),
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Reading now',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const ReadingNowCard(),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'All Books',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _isLoadingAll
+                      ? const Center(child: CircularProgressIndicator())
+                      : BookList(books: _allManga),
+                  if (_isLoadingMore)
+                    const Center(child: CircularProgressIndicator()),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
+}
 
-  Widget _buildStatusBar(BuildContext context) {
+class StatusBar extends StatelessWidget {
+  const StatusBar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return const Row(
       children: [
         Text(
@@ -49,104 +160,71 @@ class HomePage extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         Spacer(),
-        Icon(Icons.signal_cellular_alt),
+        Icon(Icons.signal_cellular_alt, size: 18),
         SizedBox(width: 8),
-        Icon(Icons.wifi),
+        Icon(Icons.wifi, size: 18),
         SizedBox(width: 8),
-        Icon(Icons.battery_full),
-      ],
-    );
-  }
-
-  Widget _buildHotTakes(BuildContext context, BoxConstraints constraints) {
-    final titleStyle = Theme.of(context).textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.bold,
-        );
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 16),
-        _HotTakeCard(constraints: constraints),
-      ],
-    );
-  }
-
-  Widget _buildTrendingComics(
-    BuildContext context,
-    BoxConstraints constraints,
-    bool isLandscape,
-  ) {
-    final titleStyle = Theme.of(context).textTheme.titleLarge?.copyWith(
-          fontWeight: FontWeight.bold,
-        );
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Trending comics', style: titleStyle),
-        const SizedBox(height: 16),
-        _TrendingComicsList(
-          constraints: constraints,
-          isLandscape: isLandscape,
-        ),
+        Icon(Icons.battery_full, size: 18),
       ],
     );
   }
 }
 
-class _HotTakeCard extends StatelessWidget {
-  final BoxConstraints constraints;
-
-  const _HotTakeCard({required this.constraints});
+class HotTakesCard extends StatelessWidget {
+  const HotTakesCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final cardHeight = constraints.maxHeight * 0.2;
-
     return Container(
-      height: cardHeight.clamp(120.0, 200.0),
+      height: 160,
       decoration: BoxDecoration(
-        color: Colors.deepOrange,
-        borderRadius: BorderRadius.circular(12),
+        color: const Color(0xFFFF4537),
+        borderRadius: BorderRadius.circular(16),
       ),
-      child: Row(
+      child: Stack(
         children: [
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'New Issue',
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.white,
-                        ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'BRZRKR',
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                ],
-              ),
+          Positioned(
+            right: 0,
+            bottom: 0,
+            top: 0,
+            child: Image.network(
+              'https://raw.githubusercontent.com/BOOM-COMICS/assets/main/brzrkr.png',
+              fit: BoxFit.cover,
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: ClipRRect(
-              borderRadius:
-                  const BorderRadius.horizontal(right: Radius.circular(12)),
-              child: Image.network(
-                'https://via.placeholder.com/100x120',
-                fit: BoxFit.cover,
-              ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text(
+                    'New Issue',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'BRZRKR',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -155,51 +233,45 @@ class _HotTakeCard extends StatelessWidget {
   }
 }
 
-class _TrendingComicsList extends StatelessWidget {
-  final BoxConstraints constraints;
-  final bool isLandscape;
+class TrendingComicsList extends StatelessWidget {
+  final List<Manga> manga;
 
-  const _TrendingComicsList({
-    required this.constraints,
-    required this.isLandscape,
-  });
+  const TrendingComicsList({Key? key, required this.manga}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // Calculate responsive item width based on screen size and orientation
-    final itemWidth =
-        isLandscape ? constraints.maxWidth * 0.15 : constraints.maxWidth * 0.3;
-
-    return SizedBox(
-      height: constraints.maxHeight * 0.4,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: 3,
-            itemBuilder: (context, index) {
-              final comics = [
-                {'title': 'Batman', 'rating': 4.5},
-                {'title': 'The Amazing Spider-Man', 'rating': 4.5},
-                {'title': 'Invincible', 'rating': 4.5},
-              ];
-
-              return Padding(
-                padding: EdgeInsets.only(
-                  right: index < 2 ? 16 : 0,
-                ),
-                child: ComicCard(
-                  title: comics[index]['title'] as String,
-                  imageUrl: 'https://via.placeholder.com/150x200',
-                  rating: comics[index]['rating'] as double,
-                  width: itemWidth,
-                  height: constraints.maxHeight * 0.75,
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: manga.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: EdgeInsets.only(right: index != manga.length - 1 ? 16 : 0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ComicDetailPage(mangaId: manga[index].malId),
                 ),
               );
             },
-          );
-        },
-      ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    manga[index].imageUrl,
+                    width: 140,
+                    height: 220,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
