@@ -250,14 +250,14 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                   const SizedBox(height: 12),
                   const _AuthorTile(
                     imageUrl:
-                        'https://raw.githubusercontent.com/BOOM-COMICS/assets/main/robert-kirkman.jpg',
+                        'https://img.icons8.com/color/48/user-male-circle--v1.png',
                     name: 'Robert Kirkman',
                     role: 'Writer',
                   ),
                   const SizedBox(height: 12),
                   const _AuthorTile(
                     imageUrl:
-                        'https://raw.githubusercontent.com/BOOM-COMICS/assets/main/ryan-ottley.jpg',
+                        'https://img.icons8.com/color/48/user-male-circle--v1.png',
                     name: 'Ryan Ottley',
                     role: 'Illustrator',
                   ),
