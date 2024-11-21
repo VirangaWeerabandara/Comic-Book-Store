@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:comic_book_store/api/jikan_service.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../models/manga.dart';
 
 class ComicDetailPage extends StatefulWidget {
@@ -116,16 +117,15 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                           ),
                         ),
                       ),
-                      Row(
-                        children: List.generate(5, (index) {
-                          return Icon(
-                            index < (_manga!.score / 2).floor()
-                                ? Icons.star
-                                : Icons.star_border,
-                            color: Colors.amber,
-                            size: 20,
-                          );
-                        }),
+                      RatingBarIndicator(
+                        rating: _manga!.score / 2,
+                        itemBuilder: (context, index) => const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        itemCount: 5,
+                        itemSize: 20.0,
+                        direction: Axis.horizontal,
                       ),
                     ],
                   ),
