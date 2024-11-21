@@ -1,5 +1,6 @@
 import 'package:comic_book_store/pages/dictionaryPage.dart';
 import 'package:comic_book_store/pages/homePage.dart';
+import 'package:comic_book_store/pages/profile.dart';
 import 'package:comic_book_store/pages/searchComics.dart';
 import 'package:comic_book_store/pages/signIn.dart';
 import 'package:comic_book_store/pages/textToSpeech.dart';
@@ -63,6 +64,6 @@ class NavigationController extends GetxController {
     HomePage(),
     SearchPage(),
     DictionaryPage(),
-    HomePage(),
+    ProfilePage(),
   ];
 }
