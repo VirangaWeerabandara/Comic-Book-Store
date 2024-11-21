@@ -13,7 +13,8 @@ class JikanService {
   }
 
   Future<List<Map<String, dynamic>>> getTrendingManga() async {
-    final response = await http.get(Uri.parse('$baseUrl/top/manga?filter=bypopularity'));
+    final response =
+        await http.get(Uri.parse('$baseUrl/top/manga?filter=bypopularity'));
     if (response.statusCode == 200) {
       final data = json.decode(response.body)['data'] as List;
       return data.take(10).map((item) => item as Map<String, dynamic>).toList();
@@ -32,8 +33,8 @@ class JikanService {
     throw Exception('Failed to search manga');
   }
 
-  Future<List<Map<String, dynamic>>> getAllComics() async {
-    final response = await http.get(Uri.parse('$baseUrl/manga'));
+  Future<List<Map<String, dynamic>>> getAllComics({int page = 1}) async {
+    final response = await http.get(Uri.parse('$baseUrl/manga?page=$page'));
     if (response.statusCode == 200) {
       final data = json.decode(response.body)['data'] as List;
       return data.map((item) => item as Map<String, dynamic>).toList();

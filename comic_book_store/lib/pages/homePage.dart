@@ -16,6 +16,8 @@ class _HomePageState extends State<HomePage> {
   List<Manga> _allManga = [];
   bool _isLoading = true;
   bool _isLoadingAll = true;
+  bool _isLoadingMore = false;
+  int _currentPage = 1;
 
   @override
   void initState() {
@@ -39,14 +41,29 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _loadAllManga() async {
     try {
-      final mangaData = await _jikanService.getAllComics();
+      final mangaData = await _jikanService.getAllComics(page: _currentPage);
       setState(() {
-        _allManga = mangaData.map((data) => Manga.fromJson(data)).toList();
+        _allManga
+            .addAll(mangaData.map((data) => Manga.fromJson(data)).toList());
         _isLoadingAll = false;
+        _isLoadingMore = false;
       });
     } catch (e) {
-      setState(() => _isLoadingAll = false);
+      setState(() {
+        _isLoadingAll = false;
+        _isLoadingMore = false;
+      });
       print('Error: $e');
+    }
+  }
+
+  void _loadMoreManga() {
+    if (!_isLoadingMore) {
+      setState(() {
+        _isLoadingMore = true;
+        _currentPage++;
+      });
+      _loadAllManga();
     }
   }
 
@@ -54,61 +71,73 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const StatusBar(),
-                const SizedBox(height: 24),
-                const Text(
-                  'Hot takes',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+        child: NotificationListener<ScrollNotification>(
+          onNotification: (ScrollNotification scrollInfo) {
+            if (scrollInfo.metrics.pixels ==
+                    scrollInfo.metrics.maxScrollExtent &&
+                !_isLoadingMore) {
+              _loadMoreManga();
+            }
+            return false;
+          },
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const StatusBar(),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Hot takes',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                const HotTakesCard(),
-                const SizedBox(height: 24),
-                const Text(
-                  'Trending comics',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                  const SizedBox(height: 16),
+                  const HotTakesCard(),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Trending comics',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                SizedBox(
-                  height: 220,
-                  child: _isLoading
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: 220,
+                    child: _isLoading
+                        ? const Center(child: CircularProgressIndicator())
+                        : TrendingComicsList(manga: _trendingManga),
+                  ),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'Reading now',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const ReadingNowCard(),
+                  const SizedBox(height: 24),
+                  const Text(
+                    'All Books',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  _isLoadingAll
                       ? const Center(child: CircularProgressIndicator())
-                      : TrendingComicsList(manga: _trendingManga),
-                ),
-                const SizedBox(height: 24),
-                const Text(
-                  'Reading now',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                const ReadingNowCard(),
-                const SizedBox(height: 24),
-                const Text(
-                  'All Books',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                _isLoadingAll
-                    ? const Center(child: CircularProgressIndicator())
-                    : BookList(books: _allManga),
-              ],
+                      : BookList(books: _allManga),
+                  if (_isLoadingMore)
+                    const Center(child: CircularProgressIndicator()),
+                ],
+              ),
             ),
           ),
         ),
