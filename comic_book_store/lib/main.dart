@@ -4,6 +4,7 @@ import 'package:comic_book_store/pages/dictionaryPage.dart';
 import 'package:comic_book_store/pages/homePage.dart';
 import 'package:comic_book_store/pages/library.dart';
 import 'package:comic_book_store/pages/onBoarding.dart';
+import 'package:comic_book_store/pages/registerPage.dart';
 import 'package:comic_book_store/pages/signIn.dart';
 import 'package:comic_book_store/pages/test.dart';
 import 'package:comic_book_store/pages/textRecognition.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Comic Books',
       theme: ThemeData.light(),
-      home: NavigationMenu(),
+      home: RegisterPage(),
     );
   }
 }
