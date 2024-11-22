@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comic_book_store/api/jikan_service.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../models/manga.dart';
@@ -14,13 +15,17 @@ class ComicDetailPage extends StatefulWidget {
 
 class _ComicDetailPageState extends State<ComicDetailPage> {
   final JikanService _jikanService = JikanService();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   Manga? _manga;
   bool _isLoading = true;
+  bool _isFavorite = false;
 
   @override
   void initState() {
     super.initState();
     _loadMangaDetails();
+    _checkFavoriteStatus();
   }
 
   Future<void> _loadMangaDetails() async {
@@ -32,7 +37,74 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
       });
     } catch (e) {
       setState(() => _isLoading = false);
-      print('Error: $e');
+      print('Error loading manga details: $e');
+    }
+  }
+
+  Future<void> _checkFavoriteStatus() async {
+    try {
+      final favoriteDoc = await _firestore
+          .collection('favorites')
+          .doc(widget.mangaId.toString())
+          .get();
+
+      setState(() {
+        _isFavorite = favoriteDoc.exists;
+      });
+    } catch (e) {
+      print('Error checking favorite status: $e');
+    }
+  }
+
+  Future<void> _toggleFavorite() async {
+    try {
+      DocumentReference favoriteRef =
+          _firestore.collection('favorites').doc(widget.mangaId.toString());
+
+      if (_isFavorite) {
+        // Remove from favorites
+        await favoriteRef.delete();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Removed from Favorites'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        // Add to favorites
+        await favoriteRef.set({
+          'malId': _manga!.malId,
+          'title': _manga!.title,
+          'imageUrl': _manga!.imageUrl,
+          'score': _manga!.score,
+          'synopsis': _manga!.synopsis,
+          'genres': _manga!.genres,
+          'status': _manga!.status,
+          'publishedFrom': _manga!.publishedFrom,
+          'publishedTo': _manga!.publishedTo,
+          'chapters': _manga!.chapters,
+          'type': _manga!.type,
+          'addedAt': FieldValue.serverTimestamp(),
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Added to Favorites'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+
+      setState(() {
+        _isFavorite = !_isFavorite;
+      });
+    } catch (e) {
+      print('Error toggling favorite: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to update favorites'),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
   }
 
@@ -70,7 +142,7 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                     fit: BoxFit.cover,
                   ),
                 ),
-                // Top Bar with Back Button and More Options
+                // Top Bar with Back Button and Favorite Button
                 Positioned(
                   top: 40,
                   left: 16,
@@ -87,8 +159,11 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                         ),
                       ),
                       IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.more_horiz),
+                        onPressed: _toggleFavorite,
+                        icon: Icon(
+                          _isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: _isFavorite ? Colors.red : Colors.black,
+                        ),
                         style: IconButton.styleFrom(
                           backgroundColor: Colors.white,
                           padding: const EdgeInsets.all(8),
