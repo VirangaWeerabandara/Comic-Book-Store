@@ -19,7 +19,10 @@ class MangaController {
 
   Future<bool> isFavorite(int mangaId) async {
     try {
-      final favoriteDoc = await _firestore.collection('favorites').doc(mangaId.toString()).get();
+      final favoriteDoc = await _firestore
+          .collection('favorites')
+          .doc(mangaId.toString())
+          .get();
       return favoriteDoc.exists;
     } catch (e) {
       print('Error checking favorite status: $e');
@@ -29,17 +32,18 @@ class MangaController {
 
   Future<void> toggleFavorite(Manga manga, bool isFavorite) async {
     try {
-      final favoriteRef = _firestore.collection('favorites').doc(manga.malId.toString());
+      final favoriteRef =
+          _firestore.collection('favorites').doc(manga.malId.toString());
 
       if (isFavorite) {
         // Remove from favorites
         await favoriteRef.delete();
       } else {
         // Add to favorites
-        await favoriteRef.set({
-          ...manga.toJson(),
-          'addedAt': FieldValue.serverTimestamp(),
-        });
+        // await favoriteRef.set({
+        //   ...manga.toJson(),
+        //   'addedAt': FieldValue.serverTimestamp(),
+        // });
       }
     } catch (e) {
       print('Error toggling favorite: $e');
