@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Comic Books',
       theme: ThemeData.light(),
-      initialRoute: AppRoutes.REGISTER,
+      initialRoute: AppRoutes.LOGIN,
       getPages: [
         GetPage(name: AppRoutes.REGISTER, page: () => const RegisterPage()),
         GetPage(name: AppRoutes.LOGIN, page: () => const SignIn()),
