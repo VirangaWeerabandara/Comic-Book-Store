@@ -6,6 +6,7 @@ class UserModel {
   final String email;
   final String contactNumber;
   final DateTime createdAt;
+  final String? profilePictureUrl; // New variable for profile picture URL
 
   UserModel({
     required this.uid,
@@ -13,6 +14,7 @@ class UserModel {
     required this.email,
     required this.contactNumber,
     required this.createdAt,
+    this.profilePictureUrl, // Allow null value
   });
 
   // Convert UserModel to Map for Firestore
@@ -22,6 +24,7 @@ class UserModel {
       'email': email,
       'contactNumber': contactNumber,
       'createdAt': createdAt,
+      'profilePictureUrl': profilePictureUrl, // Include profile picture URL
     };
   }
 
@@ -33,6 +36,8 @@ class UserModel {
       email: data['email'] ?? '',
       contactNumber: data['contactNumber'] ?? '',
       createdAt: (data['createdAt'] as Timestamp).toDate(),
+      profilePictureUrl:
+          data['profilePictureUrl'], // Handle profile picture URL
     );
   }
 }
