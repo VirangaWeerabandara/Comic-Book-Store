@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: AppRoutes.SEARCH, page: () => SearchPage()),
         GetPage(name: AppRoutes.DICTIONARY, page: () => const DictionaryPage()),
         GetPage(name: AppRoutes.PROFILE, page: () => const ProfilePage()),
-         GetPage(name: AppRoutes.ONBOARDING, page: () => const Onboarding()),
+        GetPage(name: AppRoutes.ONBOARDING, page: () => const Onboarding()),
       ],
     );
   }
