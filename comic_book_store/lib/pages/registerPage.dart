@@ -1,7 +1,8 @@
+import 'package:comic_book_store/controllers/registerController.dart';
+import 'package:flutter/material.dart';
+import 'package:comic_book_store/constants/colors.dart';
 import 'package:comic_book_store/components/button.dart';
 import 'package:comic_book_store/components/input.dart';
-import 'package:comic_book_store/constants/colors.dart';
-import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -12,11 +13,66 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
+  final RegisterController _controller = RegisterController();
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
-  final TextEditingController _contactNumber = TextEditingController();
+  final TextEditingController _contactNumberController = TextEditingController();
+
+  bool _isLoading = false;
+  String _errorMessage = '';
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _contactNumberController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _register() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = '';
+      });
+
+      final error = await _controller.registerUser(
+        fullName: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        contactNumber: _contactNumberController.text,
+      );
+
+      if (error == null) {
+        // Registration successful
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Registration successful!'),
+              backgroundColor: Colors.green,
+            ),
+          );
+          Navigator.pushReplacementNamed(context, '/home');
+        }
+      } else {
+        // Display error
+        setState(() {
+          _errorMessage = error;
+        });
+      }
+
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +80,7 @@ class _RegisterPageState extends State<RegisterPage> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -58,6 +115,18 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 SizedBox(height: screenHeight * 0.04),
 
+                if (_errorMessage.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: Text(
+                      _errorMessage,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+
                 CustomInputField(
                   hintText: "Full Name",
                   controller: _nameController,
@@ -77,7 +146,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     if (value == null || value.isEmpty) {
                       return "Email is required";
                     }
-                    if (!RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$").hasMatch(value)) {
+                    if (!RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$")
+                        .hasMatch(value)) {
                       return "Enter a valid email";
                     }
                     return null;
@@ -88,6 +158,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 CustomInputField(
                   hintText: "Password",
                   controller: _passwordController,
+                  obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Password is required";
@@ -103,6 +174,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 CustomInputField(
                   hintText: "Confirm Password",
                   controller: _confirmPasswordController,
+                  obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Confirm Password is required";
@@ -117,7 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 CustomInputField(
                   hintText: "Contact Number",
-                  controller: _contactNumber,
+                  controller: _contactNumberController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return "Contact Number is required";
@@ -133,13 +205,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 CustomButton(
                   height: screenHeight * 0.08,
                   width: screenWidth,
-                  text: "Register",
-                  onPressed: () {
-                    if (_formKey.currentState?.validate() ?? false) {
-                      // Proceed with registration logic
-                      print("Registration successful");
-                    }
-                  },
+                  text: _isLoading ? "Registering..." : "Register",
+                  backgroundColor: AppColors.primary,
+                  textColor: Colors.white,
+                  onPressed: _isLoading ? null : _register,
                 ),
                 SizedBox(height: screenHeight * 0.02),
 
@@ -150,11 +219,11 @@ class _RegisterPageState extends State<RegisterPage> {
                       "Already have an account? ",
                       style: TextStyle(
                         fontSize: 16,
-                        color: AppColors.accent4,
+                        color: AppColors.accent3,
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => Navigator.pop(context),
+                      onTap: () => Navigator.pushReplacementNamed(context, '/login'),
                       child: const Text(
                         "Sign In",
                         style: TextStyle(
