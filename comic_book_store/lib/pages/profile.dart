@@ -35,6 +35,7 @@ class ProfilePage extends StatelessWidget {
                   paddingHorizontal: paddingHorizontal,
                   deviceType: deviceType,
                   textScaleFactor: textScaleFactor,
+                  controller: controller,
                 ),
                 _buildContent(
                   context,
@@ -57,17 +58,38 @@ class ProfilePage extends StatelessWidget {
     required double paddingHorizontal,
     required DeviceType deviceType,
     required double textScaleFactor,
+    required ProfileController controller,
   }) {
     return Padding(
       padding: EdgeInsets.all(paddingHorizontal),
       child: Column(
         children: [
-          CircleAvatar(
-            radius: profileImageSize / 2,
-            backgroundImage: user.profilePictureUrl != null
-                ? NetworkImage(user.profilePictureUrl!)
-                : const AssetImage('assets/images/default_profile.png')
-                    as ImageProvider,
+          Stack(
+            children: [
+              CircleAvatar(
+                radius: profileImageSize / 2,
+                backgroundImage: user.profilePictureUrl != null
+                    ? NetworkImage(user.profilePictureUrl!)
+                    : const AssetImage('assets/images/default_profile.png')
+                        as ImageProvider,
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: GestureDetector(
+                  onTap: () => controller.uploadProfilePicture(),
+                  child: CircleAvatar(
+                    radius: profileImageSize / 6,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.edit,
+                      size: profileImageSize / 6,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           Text(
