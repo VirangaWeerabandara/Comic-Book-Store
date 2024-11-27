@@ -20,6 +20,7 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
   Manga? _manga;
   bool _isLoading = true;
   bool _isFavorite = false;
+  bool _showFullSynopsis = false; // State variable to track synopsis display
 
   @override
   void initState() {
@@ -300,17 +301,21 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    _manga!.synopsis,
+                    _showFullSynopsis
+                        ? _manga!.synopsis
+                        : _manga!.synopsis.substring(0, 100) + '...',
                     style: const TextStyle(
                       color: Colors.grey,
                       height: 1.5,
                     ),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
                   ),
                   TextButton(
-                    onPressed: () {},
-                    child: const Text('more'),
+                    onPressed: () {
+                      setState(() {
+                        _showFullSynopsis = !_showFullSynopsis;
+                      });
+                    },
+                    child: Text(_showFullSynopsis ? 'less' : 'more'),
                   ),
                   const SizedBox(height: 24),
 
@@ -335,10 +340,6 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                         'https://img.icons8.com/color/48/user-male-circle--v1.png',
                     name: 'Ryan Ottley',
                     role: 'Illustrator',
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: const Text('See All'),
                   ),
                 ],
               ),
@@ -430,7 +431,7 @@ class _AuthorTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              name,
+              'Written by $name',
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,

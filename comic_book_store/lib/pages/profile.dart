@@ -1,11 +1,15 @@
+import 'package:comic_book_store/models/userModel.dart';
 import 'package:comic_book_store/pages/favouritePage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:comic_book_store/controllers/profileController.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ProfileController controller = Get.put(ProfileController());
     final mediaQuery = MediaQuery.of(context);
     final screenWidth = mediaQuery.size.width;
     final deviceType = getDeviceType(screenWidth);
@@ -17,23 +21,31 @@ class ProfilePage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildProfileHeader(
-                context,
-                profileImageSize: profileImageSize,
-                paddingHorizontal: paddingHorizontal,
-                deviceType: deviceType,
-                textScaleFactor: textScaleFactor,
-              ),
-              _buildContent(
-                context,
-                paddingHorizontal: paddingHorizontal,
-                deviceType: deviceType,
-                textScaleFactor: textScaleFactor,
-              ),
-            ],
-          ),
+          child: Obx(() {
+            final user = controller.userModel.value;
+            if (user == null) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return Column(
+              children: [
+                _buildProfileHeader(
+                  context,
+                  user: user,
+                  profileImageSize: profileImageSize,
+                  paddingHorizontal: paddingHorizontal,
+                  deviceType: deviceType,
+                  textScaleFactor: textScaleFactor,
+                  controller: controller,
+                ),
+                _buildContent(
+                  context,
+                  paddingHorizontal: paddingHorizontal,
+                  deviceType: deviceType,
+                  textScaleFactor: textScaleFactor,
+                ),
+              ],
+            );
+          }),
         ),
       ),
     );
@@ -41,24 +53,47 @@ class ProfilePage extends StatelessWidget {
 
   Widget _buildProfileHeader(
     BuildContext context, {
+    required UserModel user,
     required double profileImageSize,
     required double paddingHorizontal,
     required DeviceType deviceType,
     required double textScaleFactor,
+    required ProfileController controller,
   }) {
     return Padding(
       padding: EdgeInsets.all(paddingHorizontal),
       child: Column(
         children: [
-          CircleAvatar(
-            radius: profileImageSize / 2,
-            backgroundImage: const NetworkImage(
-              'https://via.placeholder.com/150',
-            ),
+          Stack(
+            children: [
+              CircleAvatar(
+                radius: profileImageSize / 2,
+                backgroundImage: user.profilePictureUrl != null
+                    ? NetworkImage(user.profilePictureUrl!)
+                    : const AssetImage('assets/images/default_profile.png')
+                        as ImageProvider,
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: GestureDetector(
+                  onTap: () => controller.uploadProfilePicture(),
+                  child: CircleAvatar(
+                    radius: profileImageSize / 6,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.edit,
+                      size: profileImageSize / 6,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           Text(
-            'John Doe',
+            user.fullName,
             style: getResponsiveTextStyle(
               deviceType,
               Theme.of(context).textTheme.headlineMedium!,
@@ -67,7 +102,7 @@ class ProfilePage extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'john.doe@example.com',
+            user.email,
             style: getResponsiveTextStyle(
               deviceType,
               Theme.of(context).textTheme.bodyLarge!,

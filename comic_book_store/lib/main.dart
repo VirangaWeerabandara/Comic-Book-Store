@@ -11,6 +11,7 @@ import 'package:comic_book_store/pages/searchComics.dart';
 import 'package:comic_book_store/pages/dictionaryPage.dart';
 import 'package:comic_book_store/pages/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -27,18 +28,20 @@ void main() async {
   );
 }
 
-class True {}
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Check if the user is authenticated
+    final User? user = FirebaseAuth.instance.currentUser;
+    final initialRoute = user == null ? AppRoutes.ONBOARDING : AppRoutes.HOME;
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Comic Books',
       theme: ThemeData.light(),
-      initialRoute: AppRoutes.LOGIN,
+      initialRoute: initialRoute,
       getPages: [
         GetPage(name: AppRoutes.REGISTER, page: () => const RegisterPage()),
         GetPage(name: AppRoutes.LOGIN, page: () => const SignIn()),
@@ -51,3 +54,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
