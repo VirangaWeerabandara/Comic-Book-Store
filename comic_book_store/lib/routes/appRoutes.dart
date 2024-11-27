@@ -6,6 +6,5 @@ class AppRoutes {
   static const String SEARCH = '/search';
   static const String DICTIONARY = '/dictionary';
   static const String PROFILE = '/profile';
-  
-  
+  static const String ONBOARDING = '/profile';
 }

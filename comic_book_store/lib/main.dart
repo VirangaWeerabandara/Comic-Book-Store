@@ -1,4 +1,5 @@
 import 'package:comic_book_store/components/navbar.dart';
+import 'package:comic_book_store/pages/onBoarding.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: AppRoutes.SEARCH, page: () => SearchPage()),
         GetPage(name: AppRoutes.DICTIONARY, page: () => const DictionaryPage()),
         GetPage(name: AppRoutes.PROFILE, page: () => const ProfilePage()),
+         GetPage(name: AppRoutes.ONBOARDING, page: () => const Onboarding()),
       ],
     );
   }
