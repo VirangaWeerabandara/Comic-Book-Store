@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final double width;
   final double height;
+  final Color? backgroundColor;
+  final Color? textColor;
+  final bool isLoading;
+  final IconData? icon;
+  final bool useGradient;
+  final double? borderRadius;
 
   const CustomButton({
     Key? key,
@@ -13,6 +19,12 @@ class CustomButton extends StatelessWidget {
     required this.onPressed,
     required this.width,
     required this.height,
+    this.backgroundColor,
+    this.textColor,
+    this.isLoading = false,
+    this.icon,
+    this.useGradient = false,
+    this.borderRadius,
   }) : super(key: key);
 
   @override
@@ -21,20 +33,55 @@ class CustomButton extends StatelessWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24.0),
+        borderRadius: BorderRadius.circular(borderRadius ?? 24.0),
         border: Border.all(color: Colors.white, width: 2.0),
-        color: AppColors.primary, // Updated color
+        gradient: useGradient
+            ? LinearGradient(
+                colors: [
+                  backgroundColor ?? AppColors.primary,
+                  backgroundColor?.withOpacity(0.8) ??
+                      AppColors.primary.withOpacity(0.8),
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              )
+            : null,
+        color: useGradient ? null : backgroundColor ?? AppColors.primary,
       ),
       child: TextButton(
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Color.fromRGBO(255, 255, 255, 1),
+        onPressed: isLoading ? null : onPressed,
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(borderRadius ?? 24.0),
           ),
         ),
+        child: isLoading
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (icon != null) ...[
+                    Icon(
+                      icon,
+                      color: textColor ?? Colors.white,
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                  Text(
+                    text,
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: textColor ?? Colors.white,
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }

@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Comic Books',
       theme: ThemeData.light(),
-      home: const HomePage(),
+      home:  RegisterPage(),
     );
   }
 }
