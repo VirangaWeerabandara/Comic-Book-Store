@@ -1,8 +1,10 @@
 import 'package:comic_book_store/controllers/registerController.dart';
+import 'package:comic_book_store/routes/appRoutes.dart';
 import 'package:flutter/material.dart';
 import 'package:comic_book_store/constants/colors.dart';
 import 'package:comic_book_store/components/button.dart';
 import 'package:comic_book_store/components/input.dart';
+import 'package:get/get.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -13,13 +15,15 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
-  final RegisterController _controller = RegisterController();
+  final RegisterController _controller = Get.put(RegisterController());
 
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
-  final TextEditingController _contactNumberController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
+  final TextEditingController _contactNumberController =
+      TextEditingController();
 
   bool _isLoading = false;
   String _errorMessage = '';
@@ -49,18 +53,14 @@ class _RegisterPageState extends State<RegisterPage> {
       );
 
       if (error == null) {
-        // Registration successful
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Registration successful!'),
-              backgroundColor: Colors.green,
-            ),
-          );
-          Navigator.pushReplacementNamed(context, '/home');
-        }
+        Get.snackbar(
+          'Success',
+          'Registration successful!',
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+        Get.offAllNamed(AppRoutes.HOME);
       } else {
-        // Display error
         setState(() {
           _errorMessage = error;
         });
@@ -86,7 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: AppColors.accent2),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Get.back(),
         ),
       ),
       body: Padding(
@@ -114,7 +114,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.04),
-
                 if (_errorMessage.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16),
@@ -126,7 +125,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
-
                 CustomInputField(
                   hintText: "Full Name",
                   controller: _nameController,
@@ -138,7 +136,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                 ),
                 SizedBox(height: screenHeight * 0.02),
-
                 CustomInputField(
                   hintText: "Email",
                   controller: _emailController,
@@ -154,7 +151,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                 ),
                 SizedBox(height: screenHeight * 0.02),
-
                 CustomInputField(
                   hintText: "Password",
                   controller: _passwordController,
@@ -170,7 +166,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                 ),
                 SizedBox(height: screenHeight * 0.02),
-
                 CustomInputField(
                   hintText: "Confirm Password",
                   controller: _confirmPasswordController,
@@ -186,7 +181,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                 ),
                 SizedBox(height: screenHeight * 0.02),
-
                 CustomInputField(
                   hintText: "Contact Number",
                   controller: _contactNumberController,
@@ -201,7 +195,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                 ),
                 SizedBox(height: screenHeight * 0.04),
-
                 CustomButton(
                   height: screenHeight * 0.08,
                   width: screenWidth,
@@ -211,7 +204,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   onPressed: _isLoading ? null : _register,
                 ),
                 SizedBox(height: screenHeight * 0.02),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -223,7 +215,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () => Navigator.pushReplacementNamed(context, '/login'),
+                      onTap: () => Get.offAllNamed(AppRoutes.LOGIN),
                       child: const Text(
                         "Sign In",
                         style: TextStyle(

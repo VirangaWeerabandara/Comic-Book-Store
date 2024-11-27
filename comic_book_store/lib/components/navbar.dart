@@ -2,12 +2,10 @@ import 'package:comic_book_store/pages/dictionaryPage.dart';
 import 'package:comic_book_store/pages/homePage.dart';
 import 'package:comic_book_store/pages/profile.dart';
 import 'package:comic_book_store/pages/searchComics.dart';
-import 'package:comic_book_store/pages/signIn.dart';
-import 'package:comic_book_store/pages/textToSpeech.dart';
-
+import 'package:comic_book_store/routes/appRoutes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+
 
 // Define your color theme
 final Color primaryColor = Color(0xFFED6333);
@@ -27,28 +25,28 @@ class NavigationMenu extends StatelessWidget {
         () => BottomNavigationBar(
           elevation: 0,
           currentIndex: controller.selectedIndex.value,
-          onTap: (index) => controller.selectedIndex.value = index,
+          onTap: (index) => controller.onTabTapped(index),
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home), // Updated icon
+              icon: Icon(Icons.home),
               label: 'Explore',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.library_books), // Updated icon
+              icon: Icon(Icons.library_books),
               label: 'Library',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark), // Updated icon
+              icon: Icon(Icons.bookmark),
               label: 'Dictionary',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person), // Updated icon
+              icon: Icon(Icons.person),
               label: 'Profile',
             ),
           ],
-          selectedItemColor: primaryColor, // Use the defined color
-          unselectedItemColor: secondaryColor, // Use the defined color
-          backgroundColor: backgroundColor, // Use the defined color
+          selectedItemColor: primaryColor,
+          unselectedItemColor: secondaryColor,
+          backgroundColor: backgroundColor,
         ),
       ),
       body: Obx(
@@ -66,4 +64,22 @@ class NavigationController extends GetxController {
     DictionaryPage(),
     ProfilePage(),
   ];
+
+  void onTabTapped(int index) {
+    selectedIndex.value = index;
+    switch (index) {
+      case 0:
+        Get.toNamed(AppRoutes.HOME);
+        break;
+      case 1:
+        Get.toNamed(AppRoutes.SEARCH);
+        break;
+      case 2:
+        Get.toNamed(AppRoutes.DICTIONARY);
+        break;
+      case 3:
+        Get.toNamed(AppRoutes.PROFILE);
+        break;
+    }
+  }
 }
