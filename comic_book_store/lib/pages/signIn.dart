@@ -4,6 +4,7 @@ import 'package:comic_book_store/constants/colors.dart';
 import 'package:comic_book_store/routes/appRoutes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:comic_book_store/controllers/signInController.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -16,6 +17,10 @@ class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final SignInController _signInController = Get.put(SignInController());
+
+  bool _isLoading = false;
+  String _errorMessage = '';
 
   @override
   Widget build(BuildContext context) {
@@ -77,16 +82,22 @@ class _SignInState extends State<SignIn> {
                 },
               ),
               SizedBox(height: screenHeight * 0.02),
+              if (_errorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Text(
+                    _errorMessage,
+                    style: const TextStyle(
+                      color: Colors.red,
+                      fontSize: 14,
+                    ),
+                  ),
+                ),
               CustomButton(
                 height: screenHeight * 0.08,
                 width: screenWidth * 1,
-                text: "Sign In",
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Perform sign in
-                    print("Sign in");
-                  }
-                },
+                text: _isLoading ? "Signing In..." : "Sign In",
+                onPressed: _isLoading ? null : _signIn,
               ),
               SizedBox(height: screenHeight * 0.02),
               Row(
@@ -117,5 +128,33 @@ class _SignInState extends State<SignIn> {
         ),
       ),
     );
+  }
+
+  Future<void> _signIn() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isLoading = true;
+        _errorMessage = '';
+      });
+
+      final error = await _signInController.signInUser(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      if (error == null) {
+        Get.offAllNamed(AppRoutes.HOME);
+      } else {
+        setState(() {
+          _errorMessage = error;
+        });
+      }
+
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 }
