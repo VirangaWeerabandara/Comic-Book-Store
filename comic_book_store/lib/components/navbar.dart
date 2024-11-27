@@ -5,14 +5,7 @@ import 'package:comic_book_store/pages/searchComics.dart';
 import 'package:comic_book_store/routes/appRoutes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-
-// Define your color theme
-final Color primaryColor = Color(0xFFED6333);
-final Color secondaryColor = Color(0xFF758BA7);
-final Color accentColor = Color(0xFF9AC7E2);
-final Color backgroundColor = Color(0xFFFFFFFF);
-final Color cardColor = Color(0xFFB8BFC2);
+import 'package:comic_book_store/constants/colors.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({super.key});
@@ -44,13 +37,16 @@ class NavigationMenu extends StatelessWidget {
               label: 'Profile',
             ),
           ],
-          selectedItemColor: primaryColor,
-          unselectedItemColor: secondaryColor,
-          backgroundColor: backgroundColor,
+          selectedItemColor: AppColors.primary,
+          unselectedItemColor: AppColors.secondary,
+          backgroundColor: AppColors.background,
         ),
       ),
       body: Obx(
-        () => controller.screens[controller.selectedIndex.value],
+        () => IndexedStack(
+          index: controller.selectedIndex.value,
+          children: controller.screens,
+        ),
       ),
     );
   }
@@ -67,19 +63,5 @@ class NavigationController extends GetxController {
 
   void onTabTapped(int index) {
     selectedIndex.value = index;
-    switch (index) {
-      case 0:
-        Get.toNamed(AppRoutes.HOME);
-        break;
-      case 1:
-        Get.toNamed(AppRoutes.SEARCH);
-        break;
-      case 2:
-        Get.toNamed(AppRoutes.DICTIONARY);
-        break;
-      case 3:
-        Get.toNamed(AppRoutes.PROFILE);
-        break;
-    }
   }
 }
