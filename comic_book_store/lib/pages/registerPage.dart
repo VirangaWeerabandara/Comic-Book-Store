@@ -5,6 +5,7 @@ import 'package:comic_book_store/constants/colors.dart';
 import 'package:comic_book_store/components/button.dart';
 import 'package:comic_book_store/components/input.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -53,13 +54,19 @@ class _RegisterPageState extends State<RegisterPage> {
       );
 
       if (error == null) {
+        // Send email verification
+        User? user = FirebaseAuth.instance.currentUser;
+        if (user != null && !user.emailVerified) {
+          await user.sendEmailVerification();
+        }
+
         Get.snackbar(
           'Success',
-          'Registration successful!',
+          'Registration successful! Please verify your email.',
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
-        Get.offAllNamed(AppRoutes.HOME);
+        Get.offAllNamed(AppRoutes.EMAIL_VERIFICATION);
       } else {
         setState(() {
           _errorMessage = error;

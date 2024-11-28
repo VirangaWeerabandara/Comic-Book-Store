@@ -7,4 +7,5 @@ class AppRoutes {
   static const String DICTIONARY = '/dictionary';
   static const String PROFILE = '/profile';
   static const String ONBOARDING = '/onboarding';
+  static const EMAIL_VERIFICATION = '/email-verification';
 }

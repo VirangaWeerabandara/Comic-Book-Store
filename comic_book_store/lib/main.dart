@@ -7,6 +7,7 @@ import 'package:comic_book_store/routes/appRoutes.dart';
 import 'package:comic_book_store/pages/registerPage.dart';
 import 'package:comic_book_store/pages/signIn.dart';
 import 'package:comic_book_store/pages/homePage.dart';
+import 'package:comic_book_store/pages/emailVerificationPage.dart';
 import 'package:comic_book_store/pages/searchComics.dart';
 import 'package:comic_book_store/pages/dictionaryPage.dart';
 import 'package:comic_book_store/pages/profile.dart';
@@ -50,8 +51,10 @@ class MyApp extends StatelessWidget {
         GetPage(name: AppRoutes.DICTIONARY, page: () => const DictionaryPage()),
         GetPage(name: AppRoutes.PROFILE, page: () => const ProfilePage()),
         GetPage(name: AppRoutes.ONBOARDING, page: () => const Onboarding()),
+        GetPage(
+            name: AppRoutes.ONBOARDING,
+            page: () => const EmailVerificationPage()),
       ],
     );
   }
 }
-
