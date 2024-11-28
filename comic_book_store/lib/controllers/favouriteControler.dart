@@ -1,65 +1,64 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:comic_book_store/api/jikan_service.dart';
-import 'package:comic_book_store/models/manga.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// lib/controllers/favoriteController.dart
 
-class MangaController {
-  final JikanService _jikanService = JikanService();
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:comic_book_store/models/favoriteModel.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+
+class FavoriteController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  
+  final RxList<Favorite> favorites = <Favorite>[].obs;
+  final RxBool isLoading = true.obs;
 
-  Future<Manga?> fetchMangaDetails(int mangaId) async {
-    try {
-      final mangaData = await _jikanService.getMangaDetails(mangaId);
-      return Manga.fromJson(mangaData);
-    } catch (e) {
-      print('Error fetching manga details: $e');
-      return null;
-    }
+  @override
+  void onInit() {
+    super.onInit();
+    loadFavorites();
   }
 
-  Future<bool> isFavorite(int mangaId) async {
-    try {
-      final user = _auth.currentUser;
-      if (user == null) return false;
-
-      final favoriteDoc = await _firestore
-          .collection('favorites')
-          .doc(user.email)
-          .collection('userFavorites')
-          .doc(mangaId.toString())
-          .get();
-      return favoriteDoc.exists;
-    } catch (e) {
-      print('Error checking favorite status: $e');
-      return false;
-    }
-  }
-
-  Future<void> toggleFavorite(Manga manga, bool isFavorite) async {
+  Future<void> loadFavorites() async {
     try {
       final user = _auth.currentUser;
       if (user == null) return;
 
-      final favoriteRef = _firestore
+      isLoading.value = true;
+      final snapshot = await _firestore
           .collection('favorites')
           .doc(user.email)
           .collection('userFavorites')
-          .doc(manga.malId.toString());
+          .orderBy('addedAt', descending: true)
+          .get();
 
-      if (isFavorite) {
-        // Remove from favorites
-        await favoriteRef.delete();
-      } else {
-        // Add to favorites
-        await favoriteRef.set({
-          'userEmail': user.email,
-          ...manga.toJson(),
-          'addedAt': FieldValue.serverTimestamp(),
-        });
-      }
+      favorites.value = snapshot.docs
+          .map((doc) => Favorite.fromJson(doc.data()))
+          .toList();
     } catch (e) {
-      print('Error toggling favorite: $e');
+      print('Error loading favorites: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> removeFavorite(int mangaId) async {
+    try {
+      final user = _auth.currentUser;
+      if (user == null) return;
+
+      await _firestore
+          .collection('favorites')
+          .doc(user.email)
+          .collection('userFavorites')
+          .doc(mangaId.toString())
+          .delete();
+
+      favorites.removeWhere((favorite) => favorite?.malId == mangaId);
+      Get.snackbar('Success', 'Removed from favorites');
+    } catch (e) {
+      print('Error removing favorite: $e');
+      Get.snackbar('Error', 'Failed to remove from favorites');
     }
   }
 }
