@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comic_book_store/api/jikan_service.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/manga.dart';
 
 class ComicDetailPage extends StatefulWidget {
@@ -16,6 +17,7 @@ class ComicDetailPage extends StatefulWidget {
 class _ComicDetailPageState extends State<ComicDetailPage> {
   final JikanService _jikanService = JikanService();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Manga? _manga;
   bool _isLoading = true;
@@ -44,8 +46,13 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
 
   Future<void> _checkFavoriteStatus() async {
     try {
+      final user = _auth.currentUser;
+      if (user == null) return;
+
       final favoriteDoc = await _firestore
           .collection('favorites')
+          .doc(user.email)
+          .collection('userFavorites')
           .doc(widget.mangaId.toString())
           .get();
 
@@ -59,8 +66,14 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
 
   Future<void> _toggleFavorite() async {
     try {
-      DocumentReference favoriteRef =
-          _firestore.collection('favorites').doc(widget.mangaId.toString());
+      final user = _auth.currentUser;
+      if (user == null) return;
+
+      final favoriteRef = _firestore
+          .collection('favorites')
+          .doc(user.email)
+          .collection('userFavorites')
+          .doc(widget.mangaId.toString());
 
       if (_isFavorite) {
         // Remove from favorites
@@ -74,6 +87,7 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
       } else {
         // Add to favorites
         await favoriteRef.set({
+          'userEmail': user.email,
           'malId': _manga!.malId,
           'title': _manga!.title,
           'imageUrl': _manga!.imageUrl,

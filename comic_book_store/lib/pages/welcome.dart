@@ -1,10 +1,7 @@
 import 'package:comic_book_store/components/button.dart';
-import 'package:comic_book_store/components/input.dart';
 import 'package:comic_book_store/constants/colors.dart';
-import 'package:comic_book_store/pages/recognizerScreen.dart';
 import 'package:comic_book_store/pages/registerPage.dart';
 import 'package:comic_book_store/pages/signIn.dart';
-
 import 'package:flutter/material.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -27,7 +24,7 @@ class _WelcomePageState extends State<WelcomePage> {
         child: Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.all(30),
+              padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -36,10 +33,13 @@ class _WelcomePageState extends State<WelcomePage> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          'assets/images/page_01.png',
-                          width: screenWidth * 0.8,
-                          fit: BoxFit.contain,
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100.0),
+                          child: Image.asset(
+                            'assets/images/page_01.png',
+                            width: screenWidth * 0.6,
+                            fit: BoxFit.contain,
+                          ),
                         ),
                         SizedBox(height: screenHeight * 0.04),
                         const Text(
@@ -51,7 +51,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           ),
                         ),
                         const Text(
-                          "Comic Book Store",
+                          "Comic Book Reader",
                           style: TextStyle(
                             fontSize: 38,
                             fontWeight: FontWeight.bold,
@@ -85,6 +85,8 @@ class _WelcomePageState extends State<WelcomePage> {
                           height: screenHeight * 0.08,
                           width: screenWidth,
                           text: "Sign In",
+                          backgroundColor: AppColors.primary,
+                          textColor: Colors.white,
                           onPressed: () {
                             Navigator.push(
                               context,
@@ -101,7 +103,7 @@ class _WelcomePageState extends State<WelcomePage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(24.0),
                             border: Border.all(
-                              color: AppColors.accent2,
+                              color: AppColors.primary,
                               width: 2.0,
                             ),
                             color: Colors.white,
@@ -114,7 +116,7 @@ class _WelcomePageState extends State<WelcomePage> {
                               children: [
                                 const Icon(
                                   Icons.g_translate,
-                                  color: AppColors.accent2,
+                                  color: AppColors.primary,
                                   size: 24.0,
                                 ),
                                 SizedBox(width: screenWidth * 0.02),
@@ -123,7 +125,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    color: AppColors.accent2,
+                                    color: AppColors.primary,
                                   ),
                                 ),
                               ],
@@ -146,7 +148,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => RegisterPage(),
+                                    builder: (context) => const RegisterPage(),
                                   ),
                                 );
                               },
@@ -155,7 +157,7 @@ class _WelcomePageState extends State<WelcomePage> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.accent2,
+                                  color: AppColors.primary,
                                 ),
                               ),
                             ),
