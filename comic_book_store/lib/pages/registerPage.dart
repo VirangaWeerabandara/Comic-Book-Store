@@ -54,12 +54,6 @@ class _RegisterPageState extends State<RegisterPage> {
       );
 
       if (error == null) {
-        // Send email verification
-        User? user = FirebaseAuth.instance.currentUser;
-        if (user != null && !user.emailVerified) {
-          await user.sendEmailVerification();
-        }
-
         Get.snackbar(
           'Success',
           'Registration successful! Please verify your email.',
