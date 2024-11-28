@@ -8,4 +8,5 @@ class AppRoutes {
   static const String PROFILE = '/profile';
   static const String ONBOARDING = '/onboarding';
   static const EMAIL_VERIFICATION = '/email-verification';
+  static const String EDITPROFILE = '/edit-profile';
 }

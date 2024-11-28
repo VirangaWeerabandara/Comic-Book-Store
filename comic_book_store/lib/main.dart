@@ -1,4 +1,5 @@
 import 'package:comic_book_store/components/navbar.dart';
+import 'package:comic_book_store/pages/editProfilePage.dart';
 import 'package:comic_book_store/pages/onBoarding.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +55,8 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: AppRoutes.ONBOARDING,
             page: () => const EmailVerificationPage()),
+        GetPage(
+            name: AppRoutes.ONBOARDING, page: () => const EditProfilePage()),
       ],
     );
   }

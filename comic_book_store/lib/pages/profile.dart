@@ -1,4 +1,5 @@
 import 'package:comic_book_store/models/userModel.dart';
+import 'package:comic_book_store/pages/editProfilePage.dart';
 import 'package:comic_book_store/pages/favouritePage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -111,7 +112,7 @@ class ProfilePage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           OutlinedButton(
-            onPressed: () {},
+            onPressed: () => Get.to(() => const EditProfilePage()),
             child: const Text('Edit Profile'),
           ),
         ],
@@ -147,7 +148,7 @@ class ProfilePage extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>  FavoritesPage(),
+                  builder: (context) => FavoritesPage(),
                 ),
               );
             },
