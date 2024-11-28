@@ -43,4 +43,20 @@ class Manga {
       type: json['type'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'malId': malId,
+      'title': title,
+      'imageUrl': imageUrl,
+      'score': score,
+      'synopsis': synopsis,
+      'genres': genres,
+      'status': status,
+      'publishedFrom': publishedFrom,
+      'publishedTo': publishedTo,
+      'chapters': chapters,
+      'type': type,
+    };
+  }
 }
