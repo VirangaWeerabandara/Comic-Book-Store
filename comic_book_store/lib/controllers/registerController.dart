@@ -21,16 +21,22 @@ class RegisterController extends GetxController {
         password: password,
       );
 
+      // Send email verification
+      User? user = userCredential.user;
+      if (user != null && !user.emailVerified) {
+        await user.sendEmailVerification();
+      }
+
       // Create UserModel and store in Firestore
-      final user = UserModel(
-        uid: userCredential.user!.uid,
+      final userModel = UserModel(
+        uid: user!.uid,
         fullName: fullName,
         email: email,
         contactNumber: contactNumber,
         createdAt: DateTime.now(),
       );
 
-      await _firestore.collection('users').doc(user.uid).set(user.toMap());
+      await _firestore.collection('users').doc(userModel.uid).set(userModel.toMap());
 
       return null; // Success
     } on FirebaseAuthException catch (e) {
