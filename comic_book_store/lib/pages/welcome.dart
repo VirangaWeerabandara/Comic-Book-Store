@@ -36,40 +36,40 @@ class _WelcomePageState extends State<WelcomePage> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100.0),
                           child: Image.asset(
-                            'assets/images/page_01.png',
-                            width: screenWidth * 0.6,
+                            'images/spider_man.png',
+                            width: screenWidth,
                             fit: BoxFit.contain,
                           ),
                         ),
-                        SizedBox(height: screenHeight * 0.04),
+                        SizedBox(height: screenHeight * 0.02),
                         const Text(
                           "Welcome to",
                           style: TextStyle(
-                            fontSize: 28,
+                            fontSize: 24,
                             color: AppColors.accent2,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                         const Text(
-                          "Comic Book Reader",
+                          "Story Verse",
                           style: TextStyle(
-                            fontSize: 38,
+                            fontSize: 30,
                             fontWeight: FontWeight.bold,
                             color: AppColors.accent2,
                           ),
                         ),
-                        SizedBox(height: screenHeight * 0.02),
+                        SizedBox(height: screenHeight * 0.01),
                         const Text(
                           "Buy, read and enjoy comics and manga all",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             color: AppColors.accent4,
                           ),
                         ),
                         const Text(
                           "around the world",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             color: AppColors.accent4,
                           ),
                         ),
@@ -82,8 +82,8 @@ class _WelcomePageState extends State<WelcomePage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CustomButton(
-                          height: screenHeight * 0.08,
-                          width: screenWidth,
+                          height: screenHeight * 0.07,
+                          width: screenWidth * 0.9,
                           text: "Sign In",
                           backgroundColor: AppColors.primary,
                           textColor: Colors.white,
@@ -98,8 +98,8 @@ class _WelcomePageState extends State<WelcomePage> {
                         ),
                         SizedBox(height: screenHeight * 0.02),
                         Container(
-                          height: screenHeight * 0.08,
-                          width: screenWidth,
+                          height: screenHeight * 0.07,
+                          width: screenWidth * 0.9,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(24.0),
                             border: Border.all(
