@@ -28,6 +28,7 @@ class _SignInState extends State<SignIn> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: Form(

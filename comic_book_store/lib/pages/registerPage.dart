@@ -82,14 +82,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.accent2),
-          onPressed: () => Get.back(),
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      //   leading: IconButton(
+      //     icon: const Icon(Icons.arrow_back, color: AppColors.accent2),
+      //     onPressed: () => Get.back(),
+      //   ),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: SingleChildScrollView(
@@ -98,6 +98,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: screenHeight * 0.1),
                 const Text(
                   "Create Account",
                   style: TextStyle(
