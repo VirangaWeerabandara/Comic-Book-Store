@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:comic_book_store/api/jikan_service.dart';
 import 'package:comic_book_store/models/manga.dart';
+import 'package:comic_book_store/components/input.dart'; // Import CustomInputField
 
 class SearchPage extends StatefulWidget {
   @override
@@ -174,25 +175,20 @@ class _SearchPageState extends State<SearchPage> {
                 horizontal: width > 600 ? width * 0.1 : 16.0,
                 vertical: 16.0,
               ),
-              child: TextField(
+              child: CustomInputField(
+                hintText: 'Search manga...',
                 controller: _searchController,
                 onChanged: _onSearchChanged,
-                decoration: InputDecoration(
-                  hintText: 'Search manga...',
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  suffixIcon: _searchController.text.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            _searchController.clear();
-                            setState(() => _searchResults = []);
-                          },
-                        )
-                      : null,
-                ),
+                prefixIcon: const Icon(Icons.search), // Add the search icon
+                suffixIcon: _searchController.text.isNotEmpty
+                    ? IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          _searchController.clear();
+                          setState(() => _searchResults = []);
+                        },
+                      )
+                    : null,
               ),
             ),
             if (_isLoading)

@@ -1,11 +1,14 @@
 import 'package:comic_book_store/models/userModel.dart';
 import 'package:comic_book_store/pages/editProfilePage.dart';
 import 'package:comic_book_store/pages/favouritePage.dart';
+import 'package:comic_book_store/pages/recognizerScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:comic_book_store/controllers/profileController.dart';
 import 'package:comic_book_store/controllers/signOutController.dart'; // Import SignOutController
 import 'package:comic_book_store/components/button.dart'; // Import CustomButton
+import 'package:image_picker/image_picker.dart';
+import 'package:universal_io/io.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -20,6 +23,7 @@ class ProfilePage extends StatelessWidget {
     final paddingHorizontal = getPaddingHorizontal(screenWidth);
     final profileImageSize = getProfileImageSize(screenWidth, deviceType);
     final textScaleFactor = mediaQuery.textScaleFactor;
+    final ImagePicker imagePicker = ImagePicker(); // Initialize ImagePicker
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -46,6 +50,7 @@ class ProfilePage extends StatelessWidget {
                   paddingHorizontal: paddingHorizontal,
                   deviceType: deviceType,
                   textScaleFactor: textScaleFactor,
+                  imagePicker: imagePicker, // Pass ImagePicker instance
                 ),
                 const SizedBox(height: 16),
                 CustomButton(
@@ -143,6 +148,7 @@ class ProfilePage extends StatelessWidget {
     required double paddingHorizontal,
     required DeviceType deviceType,
     required double textScaleFactor,
+    required ImagePicker imagePicker, // Add ImagePicker parameter
   }) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: paddingHorizontal),
@@ -172,18 +178,27 @@ class ProfilePage extends StatelessWidget {
             },
           ),
           _buildSectionTitle(
-            'Settings',
+            'New Features',
             deviceType,
             textScaleFactor,
             context,
           ),
           _buildMenuItem(
             context,
-            icon: Icons.settings_outlined,
-            title: 'Preferences',
+            icon: Icons.camera_alt,
+            title: 'OCR with camera',
             deviceType: deviceType,
             textScaleFactor: textScaleFactor,
-            onTap: () {},
+            onTap: () async {
+              XFile? xfile =
+                  await imagePicker.pickImage(source: ImageSource.gallery);
+              if (xfile != null) {
+                File image = File(xfile.path);
+                Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+                  return RecognizerScreen(image);
+                }));
+              }
+            },
           ),
         ],
       ),

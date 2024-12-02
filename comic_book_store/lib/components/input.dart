@@ -6,6 +6,9 @@ class CustomInputField extends StatelessWidget {
   final TextEditingController controller;
   final bool obscureText;
   final FormFieldValidator<String>? validator;
+  final ValueChanged<String>? onChanged;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
 
   const CustomInputField({
     Key? key,
@@ -13,6 +16,9 @@ class CustomInputField extends StatelessWidget {
     required this.controller,
     this.obscureText = false,
     this.validator,
+    this.onChanged,
+    this.prefixIcon,
+    this.suffixIcon,
   }) : super(key: key);
 
   @override
@@ -21,11 +27,14 @@ class CustomInputField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       validator: validator,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: const TextStyle(
           color: AppColors.accent2,
         ),
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
             color: AppColors.accent4,
