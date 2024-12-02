@@ -1,3 +1,4 @@
+import 'package:comic_book_store/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:comic_book_store/api/dictionaryApi.dart';
 import 'package:comic_book_store/models/responseModel.dart';
@@ -160,16 +161,31 @@ class _DictionaryPageState extends State<DictionaryPage> {
     return TextField(
       decoration: InputDecoration(
         hintText: "Search word here",
-        hintStyle: TextStyle(color: secondaryColor),
+        hintStyle: const TextStyle(
+          color: AppColors.accent2,
+        ),
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: primaryColor, width: 2.0),
+          borderSide: const BorderSide(
+            color: AppColors.accent4,
+            width: 2.0,
+          ),
           borderRadius: BorderRadius.circular(5.0),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: secondaryColor, width: 2.0),
-          borderRadius: BorderRadius.circular(5.0),
+          borderSide: const BorderSide(
+            color: AppColors.accent3,
+            width: 2.0,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
         ),
-        fillColor: cardColor,
+        errorBorder: OutlineInputBorder(
+          borderSide: const BorderSide(
+            color: AppColors.primary,
+            width: 2.0,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        fillColor: AppColors.accent4,
         filled: true,
       ),
       onSubmitted: (value) {
