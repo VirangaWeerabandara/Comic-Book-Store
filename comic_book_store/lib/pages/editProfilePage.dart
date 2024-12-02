@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:comic_book_store/controllers/editProfileController.dart';
+import 'package:comic_book_store/components/input.dart'; // Import CustomInputField
+import 'package:comic_book_store/components/button.dart'; // Import CustomButton
 
 class EditProfilePage extends StatelessWidget {
   final EditProfileController controller = Get.put(EditProfileController());
@@ -21,39 +23,41 @@ class EditProfilePage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                TextField(
+                CustomInputField(
+                  hintText: 'Full Name',
                   controller: controller.fullNameController,
-                  decoration: const InputDecoration(labelText: 'Full Name'),
                 ),
                 const SizedBox(height: 16),
-                TextField(
+                CustomInputField(
+                  hintText: 'Email',
                   controller: controller.emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
                 ),
                 const SizedBox(height: 16),
-                TextField(
+                CustomInputField(
+                  hintText: 'Current Password',
                   controller: controller.currentPasswordController,
-                  decoration:
-                      const InputDecoration(labelText: 'Current Password'),
                   obscureText: true,
                 ),
                 const SizedBox(height: 16),
-                TextField(
+                CustomInputField(
+                  hintText: 'New Password',
                   controller: controller.newPasswordController,
-                  decoration: const InputDecoration(labelText: 'New Password'),
                   obscureText: true,
                 ),
                 const SizedBox(height: 16),
-                TextField(
+                CustomInputField(
+                  hintText: 'Confirm Password',
                   controller: controller.confirmPasswordController,
-                  decoration:
-                      const InputDecoration(labelText: 'Confirm Password'),
                   obscureText: true,
                 ),
                 const SizedBox(height: 32),
-                ElevatedButton(
+                CustomButton(
+                  text: 'Update Profile',
                   onPressed: controller.updateProfile,
-                  child: const Text('Update Profile'),
+                  width: double.infinity,
+                  height: 50,
+                  backgroundColor: Colors.blue,
+                  textColor: Colors.white,
                 ),
               ],
             ),
