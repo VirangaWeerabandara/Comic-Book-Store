@@ -1,4 +1,5 @@
 import 'package:comic_book_store/components/button.dart';
+import 'package:comic_book_store/pages/textToSpeech.dart';
 import 'package:comic_book_store/services/stripeServices.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -317,6 +318,22 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => TextToSpeech(
+                            text: _manga!
+                                .synopsis, // Replace with actual text you want to speak
+                            initialLanguage:
+                                'en-US', // Optional: specify initial language
+                          ),
+                        ),
+                      );
+                    },
+                    child: const Text('Text to Speech'),
+                  ),
                   const SizedBox(height: 12),
                   Text(
                     _showFullSynopsis
@@ -327,6 +344,7 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                       height: 1.5,
                     ),
                   ),
+
                   TextButton(
                     onPressed: () {
                       setState(() {
@@ -335,6 +353,7 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                     },
                     child: Text(_showFullSynopsis ? 'less' : 'more'),
                   ),
+
                   const SizedBox(height: 24),
 
                   // Authors
