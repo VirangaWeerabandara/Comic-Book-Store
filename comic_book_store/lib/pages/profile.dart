@@ -191,6 +191,23 @@ class ProfilePage extends StatelessWidget {
             textScaleFactor: textScaleFactor,
             onTap: () async {
               XFile? xfile =
+                  await imagePicker.pickImage(source: ImageSource.camera);
+              if (xfile != null) {
+                File image = File(xfile.path);
+                Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+                  return RecognizerScreen(image);
+                }));
+              }
+            },
+          ),
+          _buildMenuItem(
+            context,
+            icon: Icons.image_outlined,
+            title: 'OCR with image',
+            deviceType: deviceType,
+            textScaleFactor: textScaleFactor,
+            onTap: () async {
+              XFile? xfile =
                   await imagePicker.pickImage(source: ImageSource.gallery);
               if (xfile != null) {
                 File image = File(xfile.path);

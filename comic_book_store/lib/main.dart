@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:comic_book_store/components/navbar.dart';
 import 'package:comic_book_store/pages/editProfilePage.dart';
 import 'package:comic_book_store/pages/onBoarding.dart';
@@ -54,11 +56,14 @@ class MyApp extends StatelessWidget {
         GetPage(name: AppRoutes.PROFILE, page: () => const ProfilePage()),
         GetPage(name: AppRoutes.ONBOARDING, page: () => const Onboarding()),
         GetPage(
-            name: AppRoutes.ONBOARDING,
+            name: AppRoutes.EMAIL_VERIFICATION,
             page: () => const EmailVerificationPage()),
-        GetPage(name: AppRoutes.ONBOARDING, page: () => EditProfilePage()),
+        GetPage(name: AppRoutes.EDITPROFILE, page: () => EditProfilePage()),
+        // RecognizerScreen requires an image parameter, so we need to handle it differently
         GetPage(
-            name: AppRoutes.RECOGNIZERSCREEN, page: () => RecognizerScreen()),
+          name: AppRoutes.RECOGNIZERSCREEN,
+          page: () => RecognizerScreen(File('')), // Placeholder, handle this properly in your navigation logic
+        ),
       ],
     );
   }
