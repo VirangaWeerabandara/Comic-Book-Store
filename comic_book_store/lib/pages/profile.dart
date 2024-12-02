@@ -171,15 +171,6 @@ class ProfilePage extends StatelessWidget {
               );
             },
           ),
-          _buildMenuItem(
-            context,
-            icon: Icons.book_outlined,
-            title: 'My Comics',
-            count: '3',
-            deviceType: deviceType,
-            textScaleFactor: textScaleFactor,
-            onTap: () {},
-          ),
           _buildSectionTitle(
             'Settings',
             deviceType,
