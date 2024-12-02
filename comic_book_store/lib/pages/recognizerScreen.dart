@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:comic_book_store/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:flutter/services.dart';
@@ -14,12 +15,6 @@ class RecognizerScreen extends StatefulWidget {
 }
 
 class _RecognizerScreenState extends State<RecognizerScreen> {
-  final Color primaryColor = const Color(0xFFED6333);
-  final Color secondaryColor = const Color(0xFF758BA7);
-  final Color accentColor = const Color(0xFF9AC7E2);
-  final Color backgroundColor = const Color.fromARGB(255, 239, 145, 145);
-  final Color cardColor = const Color(0xFFF5F5F5);
-
   late TextRecognizer textRecognizer;
 
   @override
@@ -70,7 +65,8 @@ class _RecognizerScreenState extends State<RecognizerScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Text Recognition'),
-        backgroundColor: primaryColor,
+        titleTextStyle: TextStyle(color: AppColors.background),
+        backgroundColor: AppColors.primary,
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -92,15 +88,19 @@ class _RecognizerScreenState extends State<RecognizerScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Results'),
+                              Text(
+                                'Results',
+                                style: TextStyle(color: AppColors.background),
+                              ),
                               IconButton(
-                                icon: Icon(Icons.copy),
+                                icon: Icon(Icons.copy,
+                                    color: AppColors.background),
                                 onPressed: copyToClipboard,
                               ),
                             ],
                           ),
                         ),
-                        color: primaryColor,
+                        color: AppColors.primary,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),

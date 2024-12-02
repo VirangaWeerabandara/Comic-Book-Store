@@ -1,3 +1,4 @@
+import 'package:comic_book_store/constants/colors.dart';
 import 'package:comic_book_store/models/userModel.dart';
 import 'package:comic_book_store/pages/editProfilePage.dart';
 import 'package:comic_book_store/pages/favouritePage.dart';
@@ -26,7 +27,7 @@ class ProfilePage extends StatelessWidget {
     final ImagePicker imagePicker = ImagePicker(); // Initialize ImagePicker
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Obx(() {

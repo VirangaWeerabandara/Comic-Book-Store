@@ -187,6 +187,10 @@ class _DictionaryPageState extends State<DictionaryPage> {
         ),
         fillColor: AppColors.accent4,
         filled: true,
+        prefixIcon: Icon(
+          Icons.search,
+          color: AppColors.accent2,
+        ),
       ),
       onSubmitted: (value) {
         _getMeaningFromApi(value);
