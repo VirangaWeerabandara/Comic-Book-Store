@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:126172509323:android:de42d16c66f01e75fe108e",
         "android_client_info": {
-          "package_name": "com.comic.ap"
+          "package_name": "com.example.comic_book_store"
         }
       },
       "oauth_client": [],
