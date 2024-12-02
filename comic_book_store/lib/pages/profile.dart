@@ -4,6 +4,7 @@ import 'package:comic_book_store/pages/favouritePage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:comic_book_store/controllers/profileController.dart';
+import 'package:comic_book_store/components/button.dart'; // Import CustomButton
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -111,9 +112,13 @@ class ProfilePage extends StatelessWidget {
             ).copyWith(color: Colors.grey[600]),
           ),
           const SizedBox(height: 16),
-          OutlinedButton(
-            onPressed: () => Get.to(() => const EditProfilePage()),
-            child: const Text('Edit Profile'),
+          CustomButton(
+            text: 'Edit Profile',
+            onPressed: () => Get.to(() => EditProfilePage()),
+            width: 200,
+            height: 50,
+            backgroundColor: Colors.blue,
+            textColor: Colors.white,
           ),
         ],
       ),

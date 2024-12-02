@@ -55,8 +55,7 @@ class MyApp extends StatelessWidget {
         GetPage(
             name: AppRoutes.ONBOARDING,
             page: () => const EmailVerificationPage()),
-        GetPage(
-            name: AppRoutes.ONBOARDING, page: () => const EditProfilePage()),
+        GetPage(name: AppRoutes.ONBOARDING, page: () => EditProfilePage()),
       ],
     );
   }
