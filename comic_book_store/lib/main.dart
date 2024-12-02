@@ -27,7 +27,7 @@ void main() async {
 
   runApp(
     DevicePreview(
-      enabled: true, // Enable device preview only in non-release mode
+      enabled: false, // Enable device preview only in non-release mode
       builder: (context) => const MyApp(),
     ),
   );
@@ -59,10 +59,9 @@ class MyApp extends StatelessWidget {
             name: AppRoutes.EMAIL_VERIFICATION,
             page: () => const EmailVerificationPage()),
         GetPage(name: AppRoutes.EDITPROFILE, page: () => EditProfilePage()),
-        // RecognizerScreen requires an image parameter, so we need to handle it differently
         GetPage(
           name: AppRoutes.RECOGNIZERSCREEN,
-          page: () => RecognizerScreen(File('')), // Placeholder, handle this properly in your navigation logic
+          page: () => RecognizerScreen(File('')),
         ),
       ],
     );
