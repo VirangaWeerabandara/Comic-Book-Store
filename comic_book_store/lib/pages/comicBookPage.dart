@@ -1,4 +1,5 @@
 import 'package:comic_book_store/components/button.dart';
+import 'package:comic_book_store/services/stripeServices.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comic_book_store/api/jikan_service.dart';
@@ -363,7 +364,9 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                     height: screenHeight * 0.08,
                     width: screenWidth * 1,
                     text: "Bye now ",
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      StripeServices.stripeServices.makePayment();
+                    },
                   ),
                 ],
               ),

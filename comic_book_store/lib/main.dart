@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:comic_book_store/components/navbar.dart';
+import 'package:comic_book_store/constants/consts.dart';
 import 'package:comic_book_store/pages/editProfilePage.dart';
 import 'package:comic_book_store/pages/onBoarding.dart';
 import 'package:comic_book_store/pages/recognizerScreen.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:comic_book_store/routes/appRoutes.dart';
 import 'package:comic_book_store/pages/registerPage.dart';
@@ -24,6 +26,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await _setup();
 
   runApp(
     DevicePreview(
@@ -31,6 +34,10 @@ void main() async {
       builder: (context) => const MyApp(),
     ),
   );
+}
+
+Future<void> _setup() async {
+  Stripe.publishableKey = stripePublishableKey;
 }
 
 class MyApp extends StatelessWidget {
