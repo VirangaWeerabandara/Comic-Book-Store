@@ -30,7 +30,7 @@ void main() async {
 
   runApp(
     DevicePreview(
-      enabled: true, // Enable device preview only in non-release mode
+      enabled: true, 
       builder: (context) => const MyApp(),
     ),
   );
