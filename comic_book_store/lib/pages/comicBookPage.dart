@@ -1,3 +1,4 @@
+import 'package:comic_book_store/components/button.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comic_book_store/api/jikan_service.dart';
@@ -123,8 +124,10 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
     }
   }
 
-  @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
     if (_isLoading) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -354,6 +357,13 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                         'https://img.icons8.com/color/48/user-male-circle--v1.png',
                     name: 'Ryan Ottley',
                     role: 'Illustrator',
+                  ),
+                  const SizedBox(height: 12),
+                  CustomButton(
+                    height: screenHeight * 0.08,
+                    width: screenWidth * 1,
+                    text: "Bye now ",
+                    onPressed: () => Navigator.pop(context),
                   ),
                 ],
               ),
