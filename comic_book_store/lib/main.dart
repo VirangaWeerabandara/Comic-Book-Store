@@ -29,10 +29,7 @@ void main() async {
   await _setup();
 
   runApp(
-    DevicePreview(
-      enabled: true,
-      builder: (context) => const MyApp(),
-    ),
+    const MyApp(),
   );
 }
 

@@ -1,11 +1,15 @@
 import 'package:comic_book_store/components/button.dart';
+import 'package:comic_book_store/pages/arModelPage.dart';
 import 'package:comic_book_store/services/stripeServices.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:comic_book_store/api/jikan_service.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import '../models/manga.dart';
+import 'dart:math';
 
 class ComicDetailPage extends StatefulWidget {
   final int mangaId;
@@ -128,7 +132,18 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
+    String getRandomModel() {
+      List<String> models = [
+        'iron_man.glb',
+        'spider_man.glb',
+        'spider_gwen.glb'
+      ];
+      final random = Random();
+      int randomIndex = random.nextInt(models.length);
+      return models[randomIndex];
+    }
 
+    final String ar_model = getRandomModel();
     if (_isLoading) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -189,6 +204,30 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                         ),
                       ),
                     ],
+                  ),
+                ),
+                Positioned(
+                  top: 340,
+                  left: 16,
+                  right: 350,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle, // Set the shape to circle
+                      border: Border.all(
+                          color: Colors.black,
+                          width: 2), // Set the border color and width
+                    ),
+                    child: IconButton(
+                      onPressed: () => Get.to(() => ARModel(
+                            arModel: ar_model,
+                          )),
+                      icon: const ImageIcon(
+                          AssetImage('assets/icons/3d_model.png')),
+                      style: IconButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        padding: const EdgeInsets.all(8),
+                      ),
+                    ),
                   ),
                 ),
               ],
