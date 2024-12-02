@@ -16,6 +16,7 @@ import shared_preferences_foundation
 import sqflite
 import url_launcher_macos
 import webview_flutter_wkwebview
+import sqflite
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   FLTFirebaseFirestorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseFirestorePlugin"))

@@ -2,6 +2,7 @@ import 'package:comic_book_store/pages/dictionaryPage.dart';
 import 'package:comic_book_store/pages/homePage.dart';
 import 'package:comic_book_store/pages/profile.dart';
 import 'package:comic_book_store/pages/searchComics.dart';
+import 'package:comic_book_store/pages/textToSpeech.dart';
 import 'package:comic_book_store/routes/appRoutes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
