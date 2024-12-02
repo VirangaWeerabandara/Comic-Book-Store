@@ -1,10 +1,14 @@
 import 'package:comic_book_store/components/button.dart';
-import 'package:comic_book_store/components/input.dart';
+import 'package:comic_book_store/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 class TextToSpeech extends StatefulWidget {
-  const TextToSpeech({super.key});
+  final String text; // New required text argument
+  final String? initialLanguage; // Optional initial language parameter
+
+  const TextToSpeech(
+      {super.key, required this.text, this.initialLanguage = 'en-US'});
 
   @override
   State<TextToSpeech> createState() => _TextToSpeechState();
@@ -12,7 +16,6 @@ class TextToSpeech extends StatefulWidget {
 
 class _TextToSpeechState extends State<TextToSpeech> {
   final FlutterTts flutterTts = FlutterTts();
-  final TextEditingController textController = TextEditingController();
 
   Map<String, dynamic> languageMap = {
     'en-US': 'English',
@@ -26,7 +29,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
   };
 
   List<String> languages = [];
-  String? selectedLanguage = 'en-US'; // Initialize with a default language
+  String? selectedLanguage;
   double pitch = 1;
   double rate = 0.5;
   double volume = 0.5;
@@ -35,6 +38,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
   void initState() {
     super.initState();
     initTts();
+    selectedLanguage = widget.initialLanguage;
   }
 
   Future<void> initTts() async {
@@ -50,26 +54,13 @@ class _TextToSpeechState extends State<TextToSpeech> {
     }
   }
 
-  @override
-  void dispose() {
-    textController.dispose();
-    super.dispose();
-  }
-
   Future<void> speak() async {
-    if (textController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enter text to speak')),
-      );
-      return;
-    }
-
     try {
       await flutterTts.setLanguage(selectedLanguage ?? 'en-US');
       await flutterTts.setPitch(pitch);
       await flutterTts.setSpeechRate(rate);
       await flutterTts.setVolume(volume);
-      await flutterTts.speak(textController.text);
+      await flutterTts.speak(widget.text);
     } catch (e) {
       print('Error speaking: $e');
     }
@@ -85,15 +76,13 @@ class _TextToSpeechState extends State<TextToSpeech> {
 
   @override
   Widget build(BuildContext context) {
-    const Color primaryColor = Color(0xFFED6333);
-    const Color secondaryColor = Color(0xFF758BA7);
-    const Color accentColor = Color(0xFF9AC7E2);
-    const Color backgroundColor = Color(0xFFFFFFFF);
-    const Color cardColor = Color(0xFFF5F5F5);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Text to Speech'),
-        backgroundColor: primaryColor,
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.background, // This sets text and icon colors
+        iconTheme: const IconThemeData(
+            color: AppColors.background), // Explicitly set back button color
       ),
       body: Padding(
         padding: const EdgeInsets.all(30),
@@ -102,9 +91,9 @@ class _TextToSpeechState extends State<TextToSpeech> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomInputField(
-                hintText: 'Enter text to speak',
-                controller: textController,
+              Text(
+                'Text to Speak: ${widget.text}',
+                style: TextStyle(fontSize: 16),
               ),
               SizedBox(height: 20),
               DropdownButtonFormField<String>(
@@ -163,16 +152,16 @@ class _TextToSpeechState extends State<TextToSpeech> {
                 child: CustomButton(
                   text: 'Speak',
                   onPressed: speak,
-                  width: 150, // Set the desired width
-                  height: 50, // Set the desired height
+                  width: 150,
+                  height: 50,
                 ),
               ),
               Center(
                 child: CustomButton(
                   text: 'Stop',
                   onPressed: stop,
-                  width: 150, // Set the desired width
-                  height: 50, // Set the desired height
+                  width: 150,
+                  height: 50,
                 ),
               ),
             ],
