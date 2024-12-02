@@ -23,7 +23,7 @@ class Intro_page1 extends StatelessWidget {
                     ClipRRect(
                       borderRadius: BorderRadius.circular(100.0),
                       child: Image.asset(
-                        'images/page_01.png',
+                        'assets/images/page_01.png',
                         width: screenWidth * 0.7,
                         fit: BoxFit.contain,
                       ),

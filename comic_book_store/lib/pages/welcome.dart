@@ -36,7 +36,7 @@ class _WelcomePageState extends State<WelcomePage> {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(100.0),
                           child: Image.asset(
-                            'images/spider_man.png',
+                            'assets/images/spider_man.png',
                             width: screenWidth,
                             fit: BoxFit.contain,
                           ),
