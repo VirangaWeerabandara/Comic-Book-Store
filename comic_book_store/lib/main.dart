@@ -27,7 +27,7 @@ void main() async {
 
   runApp(
     DevicePreview(
-      enabled: false, // Enable device preview only in non-release mode
+      enabled: true, // Enable device preview only in non-release mode
       builder: (context) => const MyApp(),
     ),
   );
