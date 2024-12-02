@@ -4,6 +4,7 @@ import 'package:comic_book_store/pages/favouritePage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:comic_book_store/controllers/profileController.dart';
+import 'package:comic_book_store/controllers/signOutController.dart'; // Import SignOutController
 import 'package:comic_book_store/components/button.dart'; // Import CustomButton
 
 class ProfilePage extends StatelessWidget {
@@ -11,7 +12,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ProfileController controller = Get.put(ProfileController());
+    final ProfileController profileController = Get.put(ProfileController());
+    final SignOutController signOutController = Get.put(SignOutController());
     final mediaQuery = MediaQuery.of(context);
     final screenWidth = mediaQuery.size.width;
     final deviceType = getDeviceType(screenWidth);
@@ -24,7 +26,7 @@ class ProfilePage extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Obx(() {
-            final user = controller.userModel.value;
+            final user = profileController.userModel.value;
             if (user == null) {
               return Center(child: CircularProgressIndicator());
             }
@@ -37,13 +39,23 @@ class ProfilePage extends StatelessWidget {
                   paddingHorizontal: paddingHorizontal,
                   deviceType: deviceType,
                   textScaleFactor: textScaleFactor,
-                  controller: controller,
+                  controller: profileController,
                 ),
                 _buildContent(
                   context,
                   paddingHorizontal: paddingHorizontal,
                   deviceType: deviceType,
                   textScaleFactor: textScaleFactor,
+                ),
+                const SizedBox(height: 16),
+                CustomButton(
+                  text: 'Sign Out',
+                  onPressed: signOutController.signOutUser,
+                  width: 200,
+                  height: 50,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  icon: Icons.logout, // Add the logout icon
                 ),
               ],
             );
@@ -119,6 +131,7 @@ class ProfilePage extends StatelessWidget {
             height: 50,
             backgroundColor: Colors.blue,
             textColor: Colors.white,
+            icon: Icons.edit, // Add the edit icon
           ),
         ],
       ),
