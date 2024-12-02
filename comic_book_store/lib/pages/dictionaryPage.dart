@@ -24,9 +24,9 @@ class _DictionaryPageState extends State<DictionaryPage> {
   Widget build(BuildContext context) {
     return Container(
       color: backgroundColor,
-      child: SafeArea(
-        child: Scaffold(
-          body: Padding(
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
