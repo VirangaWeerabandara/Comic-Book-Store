@@ -166,7 +166,6 @@ class ProfilePage extends StatelessWidget {
             context,
             icon: Icons.favorite_border,
             title: 'Favorites',
-            count: '12',
             deviceType: deviceType,
             textScaleFactor: textScaleFactor,
             onTap: () {

@@ -357,21 +357,32 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => TextToSpeech(
-                            text: _manga!
-                                .synopsis, // Replace with actual text you want to speak
-                            initialLanguage:
-                                'en-US', // Optional: specify initial language
+                  SizedBox(height: screenHeight * 0.01),
+                  Container(
+                    height: screenHeight * 0.04,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TextToSpeech(
+                              text: _manga!
+                                  .synopsis, // Replace with actual text you want to speak
+                              initialLanguage:
+                                  'en-US', // Optional: specify initial language
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    child: const Text('Text to Speech'),
+                        );
+                      },
+                      child: const Text(
+                        'Text to Speech',
+                        style: TextStyle(color: Colors.black, fontSize: 12),
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Text(
