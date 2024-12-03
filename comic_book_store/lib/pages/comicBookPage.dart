@@ -421,7 +421,7 @@ class _ComicDetailPageState extends State<ComicDetailPage> {
                   CustomButton(
                     height: screenHeight * 0.08,
                     width: screenWidth * 1,
-                    text: "Bye now ",
+                    text: "Buy Now ",
                     onPressed: () {
                       StripeServices.stripeServices.makePayment();
                     },

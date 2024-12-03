@@ -715,7 +715,7 @@ packages:
     source: hosted
     version: "2.0.0"
   model_viewer_plus:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: model_viewer_plus
       sha256: "10867167ed889156e17e5781a13b9ae71634464b3ffde8a10aaa58d3a590459f"
